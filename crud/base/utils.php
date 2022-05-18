@@ -6,36 +6,16 @@ function getPost($name){
   return "";
 }
 
-function modalDanger($msg, $id) {
+function indicator($msg, $alert) {
   return "
-  <!-- Alert Danger Modal -->
-  <div class='modal modal-alert fade show' id='$id' data-backdrop='static' tabindex='-1' role='dialog' aria-labelledby='exampleModalAlertDangerLabel' aria-hidden='true'>
-    <!-- .modal-dialog -->
-    <div class='modal-dialog' role='document'>
-      <!-- .modal-content -->
-      <div class='modal-content'>
-        <!-- .modal-header -->
-        <div class='modal-header'>
-          <h5 id='exampleModalAlertDangerLabel' class='modal-title'><i class='fa fa-exclamation-triangle text-red mr-1'></i> Ops</h5>
-        </div>
-        <!-- /.modal-header -->
-        <!-- .modal-body -->
-        <div class='modal-body'>
-          <p>{$msg}</p>
-        </div>
-        <!-- /.modal-body -->
-        <!-- .modal-footer -->
-        <div class='modal-footer'>
-          <button type='button' class='btn btn-light' data-dismiss='modal'>Close</button>
-        </div>
-        <!-- /.modal-footer -->
+  <div class='row'>
+    <!-- grid column -->
+    <div class='col-lg-12'>
+      <div class='alert alert-{$alert} alert-dismissible fade show'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+        <strong>Ops!</strong> <a href='#' class='alert-link'>{$msg}
       </div>
-      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
   </div>
-  <!-- /.modal -->
-</div>
-<!-- /.card-body -->
   ";
 }

@@ -2,10 +2,7 @@
     <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
     <![endif]-->
     <!-- .auth -->
-    <?php
-    if ($this->data['error'])
-      echo $this->data['error'];
-    ?>
+
     <main class="auth">
       <header id="auth-header" class="auth-header" style="background-image: url(assets/images/illustration/img-1.png);">
         <h1>
@@ -22,6 +19,10 @@
         <p> Already have an account? please <a href="<?= BASE_URL ?>/login">Login</a> </p>
       </header><!-- form -->
       <form class="auth-form" action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+      <?php
+        if (isset($this->data['error']))
+          echo $this->data['error'];
+      ?>
         <input type="hidden" name="tipo" value="Laboratório">
         <!-- .form-group -->
         <div class="form-group">

@@ -9,7 +9,7 @@ class signup extends controller {
 
   public function index(){
     $this->data['titulo'] = "Principal";
-    $this->data['error'] = modalDanger("Por favor, Preencher o campo Nome", "modalsignup");
+    //$this->data['error'] = indicator("Por favor, Preencher o campo Nome", "danger");
 
     /*
         if ($_POST){
