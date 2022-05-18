@@ -20,8 +20,7 @@
       </header><!-- form -->
       <form class="auth-form" action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
       <?php
-        if (isset($this->data['error']))
-          echo $this->data['error'];
+
       ?>
         <input type="hidden" name="tipo" value="Laboratório">
         <!-- .form-group -->
