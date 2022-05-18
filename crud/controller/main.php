@@ -1,9 +1,14 @@
 <?php 
+include("./base/controller.php");
 
-class main extends base {
-  public $nome = "Matheus";
+class main extends controller {
 
   function __construct() {
-    print "Pagina principal";
+    parent::__construct();
+  }
+
+  public function index(){
+    $this->data['titulo'] = "Principal";
+    $this->view("./pages/main/index.php");
   }
 }

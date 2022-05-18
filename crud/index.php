@@ -1,0 +1,43 @@
+<?php
+define("BASE_URL", "http://localhost/exemplos/crud");
+define("ASSETS_URL", "http://localhost/exemplos/crud/public");
+//print_r($_SERVER);
+if (isset($_SERVER['PATH_INFO'])){
+  $parts = explode("/", $_SERVER['PATH_INFO']);
+  
+  if (count($parts) == 2){
+    $class = $parts[1];
+    $method = "";
+    $value = "";
+  } else if (count($parts) == 3){
+    $class = $parts[1];
+    $method = $parts[2];
+    $value = "";
+  } else if (count($parts) == 4){
+    $class = $parts[1];
+    $method = $parts[2];
+    $value = $parts[3];
+  }
+
+  if (file_exists("./controller/{$class}.php")){
+    include("./controller/{$class}.php");
+    $obj = new $class();
+
+    if (!empty($method)){
+      if (method_exists($obj, $method)){
+        if (empty($value)) $obj->$method();
+        else $obj->$method($value);
+      }
+    } else {
+      $obj->index();
+    }
+  } else {
+    include("./controller/page404.php");
+    $obj = new page404();
+    $obj->index();
+  }
+} else {
+  include("./controller/main.php");
+  $obj = new main();
+  $obj->index();
+}
