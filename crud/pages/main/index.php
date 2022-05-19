@@ -20,7 +20,7 @@
                 <use class="fill-primary" xlink:href="#a"></use>
               </g>
             </svg></a> <!-- /.navbar-brand -->
-          <a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="https://themes.getbootstrap.com/product/looper-responsive-admin-template" target="_blank">Purchase now</a> <!-- .navbar-collapse -->
+          <a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="<?= BASE_URL ?>/login" target="_blank">Iniciar</a> <!-- .navbar-collapse -->
           <div class="navbar-collapse collapse" id="navbarTogglerDemo01">
             <ul class="navbar-nav mx-auto">
               <li class="nav-item mr-lg-3 active">

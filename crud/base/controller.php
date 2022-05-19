@@ -17,17 +17,28 @@ class controller extends conectDB {
       $this->arrJS[] = $js;
     }
 
-    protected function view($page){
+    protected function view($views){
+      extract($this->data);
+      extract($_SESSION);
       include("./pages/layout/header.php");
-      include($page);
+      include($views);
       include("./pages/layout/footer.php");
     }
 
-    protected function viewLogado($page){
+    protected function viewLogado($views){
+      extract($this->data);
+      extract($_SESSION);
       include("./pages/layout/header_logado.php");
-      include($page);
+      if (is_array($views)){
+        foreach ($views as $key => $value) {
+          include($value);
+        }
+      } else {
+        include($views);
+      }
       include("./pages/layout/footer_logado.php");
     }
+
 
     protected function getModel($model){
       include("./model/{$model}.php");
@@ -40,7 +51,4 @@ class controller extends conectDB {
       unset($_SESSION['flash_message']);
     }
 
-    public function setflashdata($msg) {
-      $_SESSION['flash_message'] = $msg;
-    }
 }

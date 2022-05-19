@@ -14,7 +14,7 @@ if (isset($_SERVER['PATH_INFO'])){
     $class = $parts[1];
     $method = $parts[2];
     $value = "";
-  } else if (count($parts) == 4){
+  } else if (count($parts) >= 4){
     $class = $parts[1];
     $method = $parts[2];
     $value = $parts[3];

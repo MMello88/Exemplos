@@ -30,4 +30,83 @@ class usuario extends controller {
     session_destroy();
     redirect("");
   }
+
+  public function overview(){
+    $this->data['view_perfil'] = 'overview';
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/overview.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  public function admin($detalhes = ''){
+    if($_SESSION['usuario']->tipo == 'Administrador'){
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu.php", 
+        "./pages/usuario/admin.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    } else {
+      redirect("/dashboard");
+    }
+  }
+
+  public function perfil($detalhes = ''){
+    $this->data['view_perfil'] = 'perfil';
+    $this->data['detalhes'] = $detalhes;
+    if (empty($detalhes)){
+      $this->_perfil();
+    } else if ($detalhes == 'enderecos'){
+      $this->_enderecos();
+    } else if ($detalhes == 'carteira'){
+      $this->_carteira();
+    } else if ($detalhes == 'senha'){
+      $this->_senha();
+    } 
+  }
+
+  private function _perfil(){
+    if($_POST){
+      $this->usuario->doUpdatePerfil($_POST);
+    }
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu.php", 
+      "./pages/usuario/perfil.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  private function _enderecos(){
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu.php", 
+      "./pages/usuario/enderecos.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  private function _carteira() {
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu.php", 
+      "./pages/usuario/carteira.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  private function _senha() {
+    if($_POST){
+      $this->usuario->doTrocarSenha($_POST);
+    }
+
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu.php", 
+      "./pages/usuario/senha.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
 }

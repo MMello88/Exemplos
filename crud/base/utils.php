@@ -1,7 +1,7 @@
 <?php
 
 function redirect($page){
-  header("Location: " . BASE_URL . "/{$page}");
+  header("Location: " . BASE_URL . "{$page}");
   exit;
 }
 
@@ -22,4 +22,8 @@ function indicator($msg, $alert) {
     </div>
   </div>
   ";
+}
+
+function setflashdata($msg) {
+  $_SESSION['flash_message'] = $msg;
 }
