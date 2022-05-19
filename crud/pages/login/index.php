@@ -3,7 +3,7 @@
     <![endif]-->
     <!-- .auth -->
     <main class="auth">
-      <header id="auth-header" class="auth-header" style="background-image: url(assets/images/illustration/img-1.png);">
+      <header id="auth-header" class="auth-header" style="background-image: url(<?= ASSETS_URL ?>/assets/images/illustration/img-1.png);">
         <h1>
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="64" viewbox="0 0 351 100">
             <defs>
@@ -18,17 +18,20 @@
         <p> Você tem uma conta? <a href="<?= BASE_URL ?>/signup">Crie uma aqui</a>
         </p>
       </header><!-- form -->
-      <form class="auth-form">
+      <form class="auth-form" action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+        <?php
+          $this->getIndicadorMessage();
+        ?>
         <!-- .form-group -->
         <div class="form-group">
           <div class="form-label-group">
-            <input type="text" id="inputUser" class="form-control" placeholder="Username" autofocus=""> <label for="inputUser">Username</label>
+            <input name="email" value="<?= getPost('email') ?>"  type="email" id="inputEmail" class="form-control" placeholder="E-mail" autofocus=""> <label for="inputEmail">E-mail</label>
           </div>
         </div><!-- /.form-group -->
         <!-- .form-group -->
         <div class="form-group">
           <div class="form-label-group">
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password"> <label for="inputPassword">Password</label>
+            <input name="senha" type="password" id="inputPassword" class="form-control" placeholder="Password"> <label for="inputPassword">Senha</label>
           </div>
         </div><!-- /.form-group -->
         <!-- .form-group -->

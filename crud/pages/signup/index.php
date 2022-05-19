@@ -4,7 +4,7 @@
     <!-- .auth -->
 
     <main class="auth">
-      <header id="auth-header" class="auth-header" style="background-image: url(assets/images/illustration/img-1.png);">
+      <header id="auth-header" class="auth-header" style="background-image: url(<?= ASSETS_URL ?>/assets/images/illustration/img-1.png);">
         <h1>
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="64" viewbox="0 0 351 100">
             <defs>
@@ -19,9 +19,9 @@
         <p> Already have an account? please <a href="<?= BASE_URL ?>/login">Login</a> </p>
       </header><!-- form -->
       <form class="auth-form" action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-      <?php
-
-      ?>
+        <?php
+          $this->getIndicadorMessage();
+        ?>
         <input type="hidden" name="tipo" value="Laboratório">
         <!-- .form-group -->
         <div class="form-group">

@@ -4,6 +4,7 @@
   <div class="page-inner">
     <!-- .page-title-bar -->
     <header class="page-title-bar">
+      <?= $this->getIndicadorMessage(); ?>
       <!-- page title stuff goes here -->
       <h1 class="page-title">Page title</h1>
     </header>
@@ -13,6 +14,7 @@
     <div class="page-section">
       <!-- .section-block -->
       <div class="section-block">
+        
         <!-- page content goes here -->
         <p>Hello world!</p>
       </div>

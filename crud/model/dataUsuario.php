@@ -17,7 +17,12 @@ class dataUsuario extends model {
   }
 
   public function inserir($arr){
-    $this->insert('insert into usuario (id, nome, email, senha, tipo) values (null, :nome, :email, :senha, :tipo)', $arr);
+    $arr['senha'] = md5($arr['senha']);
+    return $this->insert('insert into usuario (id, nome, email, senha, tipo) values (null, :nome, :email, :senha, :tipo)', $arr);
+  }
+
+  public function selectByEmail($email){
+    return $this->select('select id, nome, email, tipo, senha from usuario where email = :email', ['email' => $email]);
   }
 
 }

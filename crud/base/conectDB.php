@@ -23,7 +23,7 @@ class conectDB {
   }
 
   public function insert($sql, $param = null){
-    $this->db->prepare($sql)->execute($param);
+    return $this->db->prepare($sql)->execute($param);
   }
 
   public function select($sql, $param = []){
@@ -38,11 +38,11 @@ class conectDB {
   }
 
   public function update($sql, $param = []){
-    $this->db->prepare($sql)->execute($param);
+    return $this->db->prepare($sql)->execute($param);
   }
 
   public function delete($sql, $param = []){
-    $this->db->prepare($sql)->execute($param);
+    return $this->db->prepare($sql)->execute($param);
   }
 
   protected function addJS($js){

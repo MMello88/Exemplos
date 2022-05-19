@@ -1,4 +1,5 @@
 <?php
+session_start();
 define("BASE_URL", "http://localhost/exemplos/crud");
 define("ASSETS_URL", "http://localhost/exemplos/crud/public");
 //print_r($_SERVER);

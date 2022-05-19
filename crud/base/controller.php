@@ -33,4 +33,14 @@ class controller extends conectDB {
       include("./model/{$model}.php");
       return new $model();
     }
+
+    public function getIndicadorMessage(){
+      if (isset($_SESSION['flash_message']))
+        echo $_SESSION['flash_message'];
+      unset($_SESSION['flash_message']);
+    }
+
+    public function setflashdata($msg) {
+      $_SESSION['flash_message'] = $msg;
+    }
 }

@@ -25,4 +25,9 @@ class usuario extends controller {
     echo "deletar chegou {$id}";
     $this->view("./pages/usuario/deletar.php");
   }
+
+  public function logout(){
+    session_destroy();
+    redirect("");
+  }
 }

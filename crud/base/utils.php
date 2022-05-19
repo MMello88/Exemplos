@@ -1,5 +1,10 @@
 <?php
 
+function redirect($page){
+  header("Location: " . BASE_URL . "/{$page}");
+  exit;
+}
+
 function getPost($name){
   if (isset($_POST))
     return isset($_POST[$name]) ? $_POST[$name] : "";
@@ -9,11 +14,10 @@ function getPost($name){
 function indicator($msg, $alert) {
   return "
   <div class='row'>
-    <!-- grid column -->
     <div class='col-lg-12'>
       <div class='alert alert-{$alert} alert-dismissible fade show'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-        <strong>Ops!</strong> <a href='#' class='alert-link'>{$msg}
+        <a href='#' class='alert-link'>{$msg}</a>
       </div>
     </div>
   </div>
