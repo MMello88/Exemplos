@@ -41,16 +41,35 @@ class usuario extends controller {
   }
 
   public function admin($detalhes = ''){
+    $this->data['view_perfil'] = 'admin';
+    $this->data['detalhes'] = $detalhes;
     if($_SESSION['usuario']->tipo == 'Administrador'){
-      $this->viewLogado([
-        "./pages/usuario/layout/header.php", 
-        "./pages/usuario/layout/menu.php", 
-        "./pages/usuario/admin.php", 
-        "./pages/usuario/layout/footer.php"
-      ]);
+      if (empty($detalhes)){
+        $this->_admin();
+      } else if($detalhes == 'site'){
+        $this->_site();
+      }
     } else {
       redirect("/dashboard");
     }
+  }
+
+  private function _admin(){
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu_adm.php", 
+      "./pages/usuario/admin.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  private function _site(){
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu_adm.php", 
+      "./pages/usuario/site.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
   }
 
   public function perfil($detalhes = ''){
