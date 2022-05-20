@@ -40,12 +40,12 @@ class usuario extends controller {
     ]);
   }
 
-  public function admin($detalhes = ''){
-    $this->data['view_perfil'] = 'admin';
+  public function parceiro($detalhes = ''){
+    $this->data['view_perfil'] = 'parceiro';
     $this->data['detalhes'] = $detalhes;
-    if($_SESSION['usuario']->tipo == 'Administrador'){
+    if(in_array($_SESSION['usuario']->tipo,["Laboratório"])){
       if (empty($detalhes)){
-        $this->_admin();
+        $this->_parceiro();
       } else if($detalhes == 'site'){
         $this->_site();
       }
@@ -54,11 +54,11 @@ class usuario extends controller {
     }
   }
 
-  private function _admin(){
+  private function _parceiro(){
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu_adm.php", 
-      "./pages/usuario/admin.php", 
+      "./pages/usuario/layout/menu_parceiro.php", 
+      "./pages/usuario/parceiro.php", 
       "./pages/usuario/layout/footer.php"
     ]);
   }
@@ -66,7 +66,7 @@ class usuario extends controller {
   private function _site(){
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu_adm.php", 
+      "./pages/usuario/layout/menu_parceiro.php", 
       "./pages/usuario/site.php", 
       "./pages/usuario/layout/footer.php"
     ]);

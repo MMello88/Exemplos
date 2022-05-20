@@ -16,12 +16,12 @@
               <div class="nav-scroller">
                 <!-- .nav -->
                 <div class="nav nav-center nav-tabs">
-                  <?php if($usuario->tipo == "Administrador") : ?>
+                  <?php if (in_array($usuario->tipo,["Laboratório"])) : ?>
                   <a class="nav-link <?= $view_perfil == "overview" ? "active" : "" ?>" href="<?= BASE_URL ?>/usuario/overview">Visão Geral</a> 
                   <?php endif; ?>
                   <a class="nav-link <?= $view_perfil == "perfil" ? "active" : "" ?>" href="<?= BASE_URL ?>/usuario/perfil">Sua Conta</a>
-                  <?php if($usuario->tipo == "Administrador") : ?>
-                  <a class="nav-link <?= $view_perfil == "admin" ? "active" : "" ?>" href="<?= BASE_URL ?>/usuario/admin">Administrador</a> 
+                  <?php if (in_array($usuario->tipo,["Laboratório"])) : ?>
+                  <a class="nav-link <?= $view_perfil == "parceiro" ? "active" : "" ?>" href="<?= BASE_URL ?>/usuario/parceiro">Parceiros</a> 
                   <?php endif; ?>
                 </div><!-- /.nav -->
               </div><!-- /.nav-scroller -->
