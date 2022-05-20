@@ -83,6 +83,8 @@ class usuario extends controller {
       $this->_carteira();
     } else if ($detalhes == 'senha'){
       $this->_senha();
+    } else if ($detalhes == 'empresa'){
+      $this->_empresa();
     } 
   }
 
@@ -125,6 +127,18 @@ class usuario extends controller {
       "./pages/usuario/layout/header.php", 
       "./pages/usuario/layout/menu.php", 
       "./pages/usuario/senha.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  private function _empresa() {
+    if($_POST){
+    }
+
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu.php", 
+      "./pages/usuario/empresa.php", 
       "./pages/usuario/layout/footer.php"
     ]);
   }
