@@ -21,7 +21,7 @@ if (isset($_SERVER['PATH_INFO'])){
   }
 
   if (file_exists("./controller/{$class}.php")){
-    include("./controller/{$class}.php");
+    require_once("./controller/{$class}.php");
     $obj = new $class();
 
     if (!empty($method)){
@@ -33,12 +33,12 @@ if (isset($_SERVER['PATH_INFO'])){
       $obj->index();
     }
   } else {
-    include("./controller/page404.php");
+    require_once("./controller/page404.php");
     $obj = new page404();
     $obj->index();
   }
 } else {
-  include("./controller/main.php");
+  require_once("./controller/main.php");
   $obj = new main();
   $obj->index();
 }

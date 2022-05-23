@@ -1,13 +1,15 @@
 <?php 
-include("./base/controller.php");
+require_once("./base/controller.php");
 
 class usuario extends controller {
 
   public $usuario;
+  public $empresa;
 
   function __construct() {
-    $this->usuario = $this->getModel('dataUsuario');
     parent::__construct();
+    $this->usuario = $this->getModel('dataUsuario');
+    $this->empresa = $this->getModel('dataEmpresas');
     $this->data['titulo'] = "Usuário";
   }
 
@@ -132,8 +134,8 @@ class usuario extends controller {
   }
 
   private function _empresa() {
-    if($_POST){
-    }
+    $this->data['empresa'] = $this->empresa->selectByUsuario();
+    //if($_POST){}
 
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 

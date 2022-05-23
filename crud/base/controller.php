@@ -1,6 +1,6 @@
 <?php
-include("conectDB.php");
-include("utils.php");
+require_once("conectDB.php");
+require_once("utils.php");
 
 class controller extends conectDB {
     
@@ -41,7 +41,7 @@ class controller extends conectDB {
 
 
     protected function getModel($model){
-      include("./model/{$model}.php");
+      require_once("./model/{$model}.php");
       return new $model();
     }
 

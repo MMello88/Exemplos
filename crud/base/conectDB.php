@@ -5,6 +5,7 @@ class conectDB {
   protected $table = "";
   protected $pk = "";
   protected $where = [];
+
   public $db;
 
   function __construct() {
@@ -19,8 +20,10 @@ class conectDB {
       $this->db = new PDO($dsn, $username, $password, $options);
     }catch (PDOException $e){
         die ('DB Error conection. Error: ' . $e->message);
-    }
+    }    
   }
+
+
 
   public function insert($sql, $param = null){
     return $this->db->prepare($sql)->execute($param);
@@ -34,7 +37,7 @@ class conectDB {
   }
 
   public function query($sql){
-    return $this->db->query($sql)->fetchAll(PDO::FETCH_CLASS);
+    return $this->select($sql);
   }
 
   public function update($sql, $param = []){
@@ -48,4 +51,6 @@ class conectDB {
   protected function addJS($js){
     $this->arrJS[] = $js;
   }
+
+
 }

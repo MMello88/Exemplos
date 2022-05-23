@@ -1,10 +1,10 @@
 <?php
-include("./base/model.php");
+require_once("./base/model.php");
 
 class dataUsuario extends model {
 
   function  __construct() {
-    $this->field = ['id', 'nome', 'email', 'senha', 'tipo', 'avatar', 'cpf_cnpj', 'ativo', 'telefone'];
+    $this->field = [];
     $this->table = 'usuario';
     $this->pk = "id";
     $this->where = ['tipo'];
@@ -113,10 +113,6 @@ class dataUsuario extends model {
 
   private function selectByEmail($email){
     return $this->select('select id, nome, email, tipo, senha, avatar, cpf_cnpj, ativo, telefone from usuario where email = :email', ['email' => $email]);
-  }
-
-  private function selectByPk($pk){
-    return $this->select("select id, nome, email, tipo, senha, avatar, cpf_cnpj, ativo, telefone from usuario where {$this->pk} = :{$this->pk}", [$this->pk => $pk]);
   }
 
   private function alterar($arrAss){

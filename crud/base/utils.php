@@ -27,3 +27,12 @@ function indicator($msg, $alert) {
 function setflashdata($msg) {
   $_SESSION['flash_message'] = $msg;
 }
+
+function input($label, $name, $id, $value, $type, $required = 'false', $disabled = 'false'){
+  return "
+  <div class='form-group'>
+    <label for='{$id}'>{$label}</label>
+    <input name='{$name}' type='{$type}' class='form-control' id='{$id}' value='{$value}' required='{$required}' disabled='{$disabled}' placeholder='{$label}'>
+  </div>
+  ";
+}

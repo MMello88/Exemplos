@@ -1,5 +1,5 @@
 <?php 
-include("./base/controller.php");
+require_once("./base/controller.php");
 
 class recovery extends controller {
 

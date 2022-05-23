@@ -1,5 +1,5 @@
 <?php
-include("./base/model.php");
+require_once("./base/model.php");
 
 class dataAtividades extends model {
 
