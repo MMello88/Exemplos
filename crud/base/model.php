@@ -15,6 +15,30 @@ class model extends conectDB {
     $this->createSql();
   }
 
+  /*
+    $this->inputs = [
+      'id' => [
+        'label' => 'Identificador',
+        'name' => 'id',
+        'id' => 'identificador',
+        'value' => '',
+        'select' => null,
+        'required' => true,
+        'disabled' => true,
+        'type' => 'hidden'
+      ],
+      'atividade_id' => [
+        'label' => 'Atividade',
+        'name' => 'atividade_id',
+        'id' => 'atividade_id',
+        'value' => '',
+        'select' => $data,
+        'required' => true,
+        'disabled' => false,
+        'type' => 'text'
+      ],
+    ]
+  */
   protected function createSql(){
     $campos = "";
     if (!empty($this->table)){
@@ -24,9 +48,20 @@ class model extends conectDB {
 
         foreach ($retorno as $key => $value) {
           $this->field[] = $value->Field;
+          $this->inputs[$value->Field] = [
+            'label' => $value->Field,
+            'name' => $value->Field,
+            'id' => $value->Field,
+            'value' => '',
+            'select' => null,
+            'required' => $value->Null == 'NO',
+            'disabled' => false,
+            'type' => 'text'
+          ];
           $campos .= $value->Field . ",";
           if($value->Key == 'PRI'){
             $this->pk = $value->Field;
+            $this->inputs[$value->Field]['type'] = 'hidden';
           }
         }
 
@@ -48,10 +83,15 @@ class model extends conectDB {
   public function selectWhere($where = []){
     $sql = $this->sqlBase . " WHERE ";
     foreach ($where as $key => $value) {
-      $sql .= "{$key} = :{$key} and ";
+      $sql .= " {$key} = :{$key} and";
     }
-    $sql = rtrim($sql, "and ");
-    return $this->select($this->sql, $where);
+    $sql = rtrim($sql, "and");
+    
+    return $this->select($sql, $where);
   }
 
+  protected function getModel($model){
+    require_once("./model/{$model}.php");
+    return new $model();
+  }
 }

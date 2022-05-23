@@ -31,6 +31,9 @@ class conectDB {
 
   public function select($sql, $param = []){
     $sth = $this->db->prepare($sql);
+
+    if (count($param) <= 0) $param = null;
+    
     if ($sth->execute($param))
       return $sth->fetchAll(PDO::FETCH_CLASS);
     return null;

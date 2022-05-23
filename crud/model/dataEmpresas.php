@@ -5,145 +5,39 @@ require_once("./base/model.php");
 class dataEmpresas extends model {
 
   function  __construct() {
-    $this->field = [];
     $this->table = 'empresas';
     $this->pk = "id";
-    $this->where = [];
     parent::__construct();
-    $this->inputs = [
-      'id' => [
-        'label' => 'Identificador',
-        'name' => 'id',
-        'id' => 'identificador',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'hidden'
-      ],
-      'atividade_id' => [
-        'label' => 'Atividade',
-        'name' => 'atividade_id',
-        'id' => 'atividade_id',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'razao_social' => [
-        'label' => 'Razão social',
-        'name' => 'razao_social',
-        'id' => 'razao_social',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'nome_fantasia' => [
-        'label' => 'Nome Fantasia',
-        'name' => 'nome_fantasia',
-        'id' => 'nome_fantasia',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'cep' => [
-        'label' => 'CEP',
-        'name' => 'cep',
-        'id' => 'cep',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'endereco' => [
-        'label' => 'Endereço',
-        'name' => 'endereco',
-        'id' => 'endereco',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'numero' => [
-        'label' => '',
-        'name' => '',
-        'id' => '',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'bairro' => [
-        'label' => '',
-        'name' => '',
-        'id' => '',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'complemento' => [
-        'label' => '',
-        'name' => '',
-        'id' => '',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'cidade' => [
-        'label' => '',
-        'name' => '',
-        'id' => '',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'uf' => [
-        'label' => '',
-        'name' => '',
-        'id' => '',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'celular' => [
-        'label' => '',
-        'name' => '',
-        'id' => '',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'pago' => [
-        'label' => '',
-        'name' => '',
-        'id' => '',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
-      'dt_experiencia' => [
-        'label' => '',
-        'name' => '',
-        'id' => '',
-        'value' => '',
-        'required' => 'true',
-        'disabled' => 'false',
-        'type' => 'text'
-      ],
+    $this->atividades = $this->getModel("dataAtividades");
+    $data = $this->atividades->selectAll();
+    $pago = [
+      (object)["id" => "Sim", "nome" => "Sim"],
+      (object)["id" => "Não", "nome" => "Não"],
     ];
+    $this->inputs['id']['disabled'] = true;
+    $this->inputs['id']['label'] = 'Identificador';
+    $this->inputs['atividade_id']['label'] = 'Atividade';
+    $this->inputs['atividade_id']['select'] = $data;
+    $this->inputs['razao_social']['label'] = 'Razão social';
+    $this->inputs['nome_fantasia']['label'] = 'Nome Fantasia';
+    $this->inputs['cep']['label'] = 'CEP';
+    $this->inputs['endereco']['label'] = 'Endereço';
+    $this->inputs['numero']['label'] = 'Número';
+    $this->inputs['bairro']['label'] = 'Bairro';
+    $this->inputs['complemento']['label'] = 'Complemento';
+    $this->inputs['cidade']['label'] = 'Cidade';
+    $this->inputs['uf']['label'] = 'Estado';
+    $this->inputs['celular']['label'] = 'Celular';
+    $this->inputs['pago']['label'] = 'Pago';
+    $this->inputs['pago']['select'] = $pago;
+    $this->inputs['dt_experiencia']['label'] = 'Data Experiência';
+    $this->inputs['dt_experiencia']['type'] = 'date';
   }
 
   public function selectByUsuario($usuario_id = ''){
     
     
-     $this->selectWhere(['usuario_id' => $usuario_id]) ;
+    print_r($this->selectWhere(['usuario_id' => $usuario_id]));
   }
 
 
