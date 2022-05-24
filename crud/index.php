@@ -28,6 +28,8 @@ if (isset($_SERVER['PATH_INFO'])){
       if (method_exists($obj, $method)){
         if (empty($value)) $obj->$method();
         else $obj->$method($value);
+      } else {
+        echo "Método não existe, por favor contrui-lo.";
       }
     } else {
       $obj->index();

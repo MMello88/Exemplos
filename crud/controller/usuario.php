@@ -5,11 +5,13 @@ class usuario extends controller {
 
   public $usuario;
   public $empresa;
+  public $enderecos;
 
   function __construct() {
     parent::__construct();
     $this->usuario = $this->getModel('dataUsuario');
     $this->empresa = $this->getModel('dataEmpresas');
+    $this->enderecos = $this->getModel('dataEnderecos');
     $this->data['titulo'] = "Usuário";
   }
 

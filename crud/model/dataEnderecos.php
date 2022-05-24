@@ -7,6 +7,10 @@ class dataEnderecos extends model {
     $this->table = 'enderecos';
     $this->pk = "id";
     parent::__construct();
+    $this->inputs['id']['disabled'] = true;
+    $this->inputs['nome']['label'] = "Nome";
+    $this->inputs['rua']['label'] = "Rua";
+    $this->inputs['numero']['label'] = "Número";
   }
 
 }
