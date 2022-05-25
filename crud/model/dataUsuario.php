@@ -114,25 +114,4 @@ class dataUsuario extends model {
   private function selectByEmail($email){
     return $this->select('select id, nome, email, tipo, senha, avatar, cpf_cnpj, ativo, telefone, empresa_id from usuario where email = :email', ['email' => $email]);
   }
-
-  public function alterar($arrAss){
-    if(!isset($arrAss[$this->pk])){
-      setflashdata(indicator("Falho na alteração. Por favor tente mais tarde.", "danger"));
-    } else {
-      $campos = '';
-      $newArr[$this->pk] = $arrAss[$this->pk];
-      foreach ($this->field as $key => $field) {
-        if ($field !== $this->pk){
-          if(isset($arrAss[$field])){
-            $campos .=  " {$field} = :{$field},";
-            $newArr[$field] = $arrAss[$field];
-          }
-        } 
-      }
-      $campos = rtrim($campos, ",");
-      $sql = "update {$this->table} set {$campos} where {$this->pk} = :{$this->pk}";
-      return $this->update($sql, $newArr);
-    }
-    
-  }
 }

@@ -35,15 +35,15 @@ function input($label, $name, $id, $value, $type, $select = [], $required = fals
   $disabled = $disabled ? "disabled" : "";
 
   if (count($select) > 0){
-    print_r($select);
     $html = "
       <div class='form-group'>
         <label for='{$id}' style='display:{$display}'>{$label}</label>
         <div class='form-label-group'>
           <select class='custom-select' id='{$id}' name='{$name}' {$required} {$disabled}>
             <option value=''> Selecionar... </option>";
-            foreach ($select as $key => $valor) {
-              $html .="<option value='{$valor->id}'> {$valor->nome} </option>";
+            foreach ($select as  $valor) {
+              $active = $value == $valor->id ?  "selected" : "";
+              $html .="<option value='{$valor->id}' $active> {$valor->nome} </option>";
             }
     $html .="</select> <label for='{$id}'>{$label}</label>
         </div>
@@ -70,6 +70,8 @@ function formCard($inputs, $titulo, $titulo_button = 'Alterar'){
       <form action='{$_SERVER['PHP_SELF']}' method='POST'>";
        
           foreach($inputs as $key => $value) {
+            //if (isset($value['value']))
+              //print_r($inputs);
             $html .= input($value['label'], $value['name'], $value['id'], $value['value'], $value['type'], $value['select'], $value['required'], $value['disabled']);
           }
   $html .= "

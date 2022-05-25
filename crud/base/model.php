@@ -110,4 +110,25 @@ class model extends conectDB {
     require_once("./model/{$model}.php");
     return new $model();
   }
+
+  public function alterar($arrAss){
+    if(!isset($arrAss[$this->pk])){
+      return false;
+    } else {
+      $campos = '';
+      $newArr[$this->pk] = $arrAss[$this->pk];
+      foreach ($this->field as $key => $field) {
+        if ($field !== $this->pk){
+          if(isset($arrAss[$field])){
+            $campos .=  " {$field} = :{$field},";
+            $newArr[$field] = $arrAss[$field];
+          }
+        } 
+      }
+      $campos = rtrim($campos, ",");
+      $sql = "update {$this->table} set {$campos} where {$this->pk} = :{$this->pk}";
+      return $this->update($sql, $newArr);
+    }
+    
+  }
 }

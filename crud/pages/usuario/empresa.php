@@ -1,4 +1,3 @@
-                  <?php print_r($empresa); ?>
                   <?php
                     $this->getIndicadorMessage();
                   ?>

@@ -140,16 +140,17 @@ class usuario extends controller {
     if($_POST){
       if(empty($_POST['id'])){
         $_POST['id'] = null;
-        $id_empresa = $this->empresa->salvar($_POST);
-        
-        $this->usuario->alterar(['empresa_id' => $id_empresa, 'id' => $_SESSION['usuario']->id]);
+        $empresa_id = $this->empresa->salvar($_POST);
+        $_SESSION['usuario']->empresa_id = $empresa_id;
+        $this->usuario->alterar(['empresa_id' => $empresa_id, 'id' => $_SESSION['usuario']->id]);
+      } else{
+        $this->empresa->alterar($_POST);
       }
-      //else $this->empresa->update($_POST);
     }
     
     $empresa = $this->empresa->selectByPk($_SESSION['usuario']->empresa_id);
     if(!empty($empresa)){
-      $this->empresa->inputs['id'] = $empresa[0]->id;
+      $this->empresa->inputs['id']['value'] = $empresa[0]->id;
       $this->empresa->inputs['atividade_id']['value'] = $empresa[0]->atividade_id;
       $this->empresa->inputs['razao_social']['value'] = $empresa[0]->razao_social;
       $this->empresa->inputs['nome_fantasia']['value'] = $empresa[0]->nome_fantasia;

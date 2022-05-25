@@ -72,11 +72,7 @@ class dataEmpresas extends model {
     
   }
 
-  public function selectByUsuario($usuario_id = ''){
-    
-    
-    print_r($this->selectWhere(['usuario_id' => $usuario_id]));
-  }
+  
 
 
 }
