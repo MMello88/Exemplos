@@ -42,7 +42,8 @@ class model extends conectDB {
   */
   protected function createSql(){
     $campos = "";
-    $camposParam = "";
+    $insertParam = "";
+    $insertCampo = "";
     if (!empty($this->table)){
       $sth = $this->db->prepare("SHOW FULL FIELDS FROM {$this->table}");
       if ($sth->execute()){
@@ -50,6 +51,7 @@ class model extends conectDB {
 
         foreach ($retorno as $key => $value) {
           $this->field[] = $value->Field;
+
           $this->inputs[$value->Field] = [
             'label' => $value->Field,
             'name' => $value->Field,
@@ -60,8 +62,11 @@ class model extends conectDB {
             'disabled' => false,
             'type' => 'text'
           ];
+
           $campos .= $value->Field . ",";
-          $camposParam .= ":" . $value->Field . ",";
+          $insertCampo .= $value->Field . ",";
+          $insertParam .= ":" . $value->Field . ",";
+
           if($value->Key == 'PRI'){
             $this->pk = $value->Field;
             $this->inputs[$value->Field]['type'] = 'hidden';
@@ -69,16 +74,18 @@ class model extends conectDB {
         }
 
         $campos = rtrim($campos, ",");
-        $camposParam = rtrim($camposParam, ",");
+        $insertCampo = rtrim($insertCampo, ",");
+        $insertParam = rtrim($insertParam, ",");
+
         $this->sqlBase = "SELECT {$campos} FROM  {$this->table}";
-        $this->insertBase = "INSERT INTO {$this->table} ({$campos}) VALUES ({$camposParam})";
+        $this->insertBase = "INSERT INTO {$this->table} ({$insertCampo}) VALUES ({$insertParam})";
         $this->sqlBaseWherePK = "SELECT {$campos} FROM  {$this->table} WHERE {$this->pk} = :{$this->pk}";
       }
     }
   }
 
   public function inserir($_arr){
-    $this->insert($this->insertBase, $_arr);
+    return $this->insert($this->insertBase, $_arr);
   }
 
   public function selectAll(){

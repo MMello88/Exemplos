@@ -35,14 +35,15 @@ function input($label, $name, $id, $value, $type, $select = [], $required = fals
   $disabled = $disabled ? "disabled" : "";
 
   if (count($select) > 0){
+    print_r($select);
     $html = "
       <div class='form-group'>
         <label for='{$id}' style='display:{$display}'>{$label}</label>
         <div class='form-label-group'>
           <select class='custom-select' id='{$id}' name='{$name}' {$required} {$disabled}>
             <option value=''> Selecionar... </option>";
-            foreach ($select as $key => $value) {
-              $html .="<option value='{$value->id}'> {$value->nome} </option>";
+            foreach ($select as $key => $valor) {
+              $html .="<option value='{$valor->id}'> {$valor->nome} </option>";
             }
     $html .="</select> <label for='{$id}'>{$label}</label>
         </div>

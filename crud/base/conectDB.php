@@ -26,7 +26,9 @@ class conectDB {
 
 
   public function insert($sql, $param = null){
-    return $this->db->prepare($sql)->execute($param);
+     $dbh = $this->db->prepare($sql);
+     $dbh->execute($param);
+     return $this->db->lastInsertId();
   }
 
   public function select($sql, $param = []){

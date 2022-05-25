@@ -112,13 +112,11 @@ class dataUsuario extends model {
   }
 
   private function selectByEmail($email){
-    return $this->select('select id, nome, email, tipo, senha, avatar, cpf_cnpj, ativo, telefone from usuario where email = :email', ['email' => $email]);
+    return $this->select('select id, nome, email, tipo, senha, avatar, cpf_cnpj, ativo, telefone, empresa_id from usuario where email = :email', ['email' => $email]);
   }
 
-  private function alterar($arrAss){
+  public function alterar($arrAss){
     if(!isset($arrAss[$this->pk])){
-      setflashdata(indicator("Falho na alteração. Por favor tente mais tarde.", "danger"));
-    } else if(isset($newArr[$this->pk])) {
       setflashdata(indicator("Falho na alteração. Por favor tente mais tarde.", "danger"));
     } else {
       $campos = '';
@@ -137,5 +135,4 @@ class dataUsuario extends model {
     }
     
   }
-
 }

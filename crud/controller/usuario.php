@@ -136,14 +136,34 @@ class usuario extends controller {
   }
 
   private function _empresa() {
+
     if($_POST){
-      print_r($_POST);
-      if(!isset($_POST['id']))
-        $this->empresa->salvar($_POST);
+      if(empty($_POST['id'])){
+        $_POST['id'] = null;
+        $id_empresa = $this->empresa->salvar($_POST);
+        
+        $this->usuario->alterar(['empresa_id' => $id_empresa, 'id' => $_SESSION['usuario']->id]);
+      }
       //else $this->empresa->update($_POST);
     }
     
-    $this->data['empresa'] = $this->empresa->selectByUsuario($_SESSION['usuario']->id);
+    $empresa = $this->empresa->selectByPk($_SESSION['usuario']->empresa_id);
+    if(!empty($empresa)){
+      $this->empresa->inputs['id'] = $empresa[0]->id;
+      $this->empresa->inputs['atividade_id']['value'] = $empresa[0]->atividade_id;
+      $this->empresa->inputs['razao_social']['value'] = $empresa[0]->razao_social;
+      $this->empresa->inputs['nome_fantasia']['value'] = $empresa[0]->nome_fantasia;
+      $this->empresa->inputs['cep']['value'] = $empresa[0]->cep;
+      $this->empresa->inputs['endereco']['value'] = $empresa[0]->endereco;
+      $this->empresa->inputs['numero']['value'] = $empresa[0]->numero;
+      $this->empresa->inputs['bairro']['value'] = $empresa[0]->bairro;
+      $this->empresa->inputs['complemento']['value'] = $empresa[0]->complemento;
+      $this->empresa->inputs['cidade']['value'] = $empresa[0]->cidade;
+      $this->empresa->inputs['uf']['value'] = $empresa[0]->uf;
+      $this->empresa->inputs['celular']['value'] = $empresa[0]->celular;
+      $this->empresa->inputs['pago']['value'] = $empresa[0]->pago;
+      $this->empresa->inputs['dt_experiencia']['value'] = $empresa[0]->dt_experiencia;
+    }
 
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
