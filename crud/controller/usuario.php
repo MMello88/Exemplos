@@ -136,10 +136,14 @@ class usuario extends controller {
   }
 
   private function _empresa() {
-    $this->data['empresa'] = $this->empresa->selectByUsuario(1);
     if($_POST){
       print_r($_POST);
+      if(!isset($_POST['id']))
+        $this->empresa->salvar($_POST);
+      //else $this->empresa->update($_POST);
     }
+    
+    $this->data['empresa'] = $this->empresa->selectByUsuario($_SESSION['usuario']->id);
 
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 

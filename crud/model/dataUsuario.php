@@ -24,7 +24,7 @@ class dataUsuario extends model {
       $data = $this->selectByEmail($arrPost['email']);
       
       if ($data == null){
-        if($this->inserir($arrPost)){
+        if($this->inserirUsuario($arrPost)){
           $data = $this->selectByEmail($arrPost['email'])[0];
           $_SESSION['usuario'] = $data;
           setflashdata(indicator("Cadastro realizado com sucesso!", "success"));
@@ -106,7 +106,7 @@ class dataUsuario extends model {
     }
   }
 
-  private function inserir($arr){
+  private function inserirUsuario($arr){
     $arr['senha'] = md5($arr['senha']);
     return $this->insert('insert into usuario (id, nome, email, senha, tipo) values (null, :nome, :email, :senha, :tipo)', $arr);
   }
