@@ -28,7 +28,7 @@ function setflashdata($msg) {
   $_SESSION['flash_message'] = $msg;
 }
 
-function input($label, $name, $id, $value, $type, $select = [], $required = false, $disabled = false){
+function input($label, $name, $id, $value, $type, $select = [], $col = '12', $required = false, $disabled = false){
   $display = $type == 'hidden' ? 'none' : 'inline-block';
   if ($disabled) $required = false;
   $required = $required ? "required" : "";
@@ -36,26 +36,30 @@ function input($label, $name, $id, $value, $type, $select = [], $required = fals
 
   if (count($select) > 0){
     $html = "
-      <div class='form-group'>
-        <label for='{$id}' style='display:{$display}'>{$label}</label>
-        <div class='form-label-group'>
-          <select class='custom-select' id='{$id}' name='{$name}' {$required} {$disabled}>
-            <option value=''> Selecionar... </option>";
-            foreach ($select as  $valor) {
-              $active = $value == $valor->id ?  "selected" : "";
-              $html .="<option value='{$valor->id}' $active> {$valor->nome} </option>";
-            }
-    $html .="</select> <label for='{$id}'>{$label}</label>
+      
+        <div class='col-md-{$col} mb-3'>
+          <label for='{$id}' style='display:{$display}'>{$label}</label>
+          <div class='form-label-group'>
+            <select class='custom-select' id='{$id}' name='{$name}' {$required} {$disabled}>
+              <option value=''> Selecionar... </option>";
+              foreach ($select as  $valor) {
+                $active = $value == $valor->id ?  "selected" : "";
+                $html .="<option value='{$valor->id}' $active> {$valor->nome} </option>";
+              }
+      $html .="</select> <label for='{$id}'>{$label}</label>
+          </div>
         </div>
-      </div>
+      
     ";
     return $html;
   } else {
     return "
-    <div class='form-group'>
-      <label for='{$id}' style='display:{$display}'>{$label}</label>
-      <input name='{$name}' type='{$type}' class='form-control' id='{$id}' value='{$value}' placeholder='{$label}' {$required} {$disabled}>
-    </div>
+    
+      <div class='col-md-{$col} mb-3'>
+        <label for='{$id}' style='display:{$display}'>{$label}</label>
+        <input name='{$name}' type='{$type}' class='form-control' id='{$id}' value='{$value}' placeholder='{$label}' {$required} {$disabled}>
+      </div>
+    
     ";
   }
 }
@@ -67,14 +71,15 @@ function formCard($inputs, $titulo, $titulo_button = 'Alterar'){
     <h6 class='card-header'> {$titulo} </h6><!-- .card-body -->
     <div class='card-body'>
       <!-- form -->
-      <form action='{$_SERVER['PHP_SELF']}' method='POST'>";
+      <form action='{$_SERVER['PHP_SELF']}' method='POST'>
+        <div class='form-row'>";
        
           foreach($inputs as $key => $value) {
             //if (isset($value['value']))
               //print_r($inputs);
-            $html .= input($value['label'], $value['name'], $value['id'], $value['value'], $value['type'], $value['select'], $value['required'], $value['disabled']);
+            $html .= input($value['label'], $value['name'], $value['id'], $value['value'], $value['type'], $value['select'], $value['col'], $value['required'], $value['disabled']);
           }
-  $html .= "
+  $html .= " </div>
         <hr>
         <!-- .form-actions -->
         <div class='form-actions'>

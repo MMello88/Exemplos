@@ -20,21 +20,31 @@ class dataEmpresas extends model {
     $this->inputs['razao_social']['label'] = 'Razão social';
     $this->inputs['nome_fantasia']['label'] = 'Nome Fantasia';
     $this->inputs['cep']['label'] = 'CEP';
+    $this->inputs['cep']['col'] = '3';
     $this->inputs['cep']['required'] = false;
     $this->inputs['endereco']['label'] = 'Endereço';
+    $this->inputs['endereco']['col'] = '6';
     $this->inputs['numero']['label'] = 'Número';
+    $this->inputs['numero']['col'] = '3';
     $this->inputs['bairro']['label'] = 'Bairro';
+    $this->inputs['bairro']['col'] = '6';
     $this->inputs['complemento']['label'] = 'Complemento';
     $this->inputs['complemento']['required'] = false;
+    $this->inputs['complemento']['col'] = '6';
     $this->inputs['cidade']['label'] = 'Cidade';
+    $this->inputs['cidade']['col'] = '6';
     $this->inputs['uf']['label'] = 'Estado';
+    $this->inputs['uf']['col'] = '3';
     $this->inputs['celular']['label'] = 'Celular';
+    $this->inputs['celular']['col'] = '6';
+    $this->inputs['dt_experiencia']['label'] = 'Data Experiência';
+    $this->inputs['dt_experiencia']['type'] = 'date';
+    $this->inputs['dt_experiencia']['col'] = '6';
+
     //$this->inputs['pago']['label'] = 'Pago';
     //$this->inputs['pago']['select'] = $pago;
     $this->inputs['pago']['type'] = 'hidden';
     $this->inputs['pago']['value'] = 'Não';
-    $this->inputs['dt_experiencia']['label'] = 'Data Experiência';
-    $this->inputs['dt_experiencia']['type'] = 'date';
   }
 
   public function salvar($_arr){

@@ -36,7 +36,8 @@ class model extends conectDB {
             'select' => null,
             'required' => $value->Null == 'NO',
             'disabled' => false,
-            'type' => 'text'
+            'type' => 'text',
+            'col' => '12'
           ];
 
           $campos .= $value->Field . ",";
