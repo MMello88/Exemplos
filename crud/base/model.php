@@ -16,30 +16,6 @@ class model extends conectDB {
     $this->createSql();
   }
 
-  /*
-    $this->inputs = [
-      'id' => [
-        'label' => 'Identificador',
-        'name' => 'id',
-        'id' => 'identificador',
-        'value' => '',
-        'select' => null,
-        'required' => true,
-        'disabled' => true,
-        'type' => 'hidden'
-      ],
-      'atividade_id' => [
-        'label' => 'Atividade',
-        'name' => 'atividade_id',
-        'id' => 'atividade_id',
-        'value' => '',
-        'select' => $data,
-        'required' => true,
-        'disabled' => false,
-        'type' => 'text'
-      ],
-    ]
-  */
   protected function createSql(){
     $campos = "";
     $insertParam = "";

@@ -143,6 +143,7 @@ class usuario extends controller {
         $empresa_id = $this->empresa->salvar($_POST);
         $_SESSION['usuario']->empresa_id = $empresa_id;
         $this->usuario->alterar(['empresa_id' => $empresa_id, 'id' => $_SESSION['usuario']->id]);
+        redirect("/usuario/perfil/empresa");
       } else{
         $this->empresa->alterar($_POST);
       }
