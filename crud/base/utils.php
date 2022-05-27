@@ -62,14 +62,14 @@ function input($label, $name, $id, $value, $type, $select = [], $col = '12', $or
   }
 }
 
-function formCard($inputs, $titulo, $titulo_button = 'Alterar'){
+function formCard($inputs, $titulo, $titulo_button = 'Alterar', $id = 'formAdd'){
   $html = "
   <!-- .card -->
   <div class='card card-fluid'>
     <h6 class='card-header'> {$titulo} </h6><!-- .card-body -->
     <div class='card-body'>
       <!-- form -->
-      <form action='{$_SERVER['PHP_SELF']}' method='POST'>
+      <form action='{$_SERVER['PHP_SELF']}' method='POST' id='{$id}'>
         <div class='form-row'>";
        
           foreach($inputs as $key => $value) {

@@ -83,6 +83,8 @@ class usuario extends controller {
       $this->_perfil();
     } else if ($detalhes == 'enderecos'){
       $this->_enderecos();
+    } else if ($detalhes == 'getEnderecos'){
+      $this->_getEnderecos();
     } else if ($detalhes == 'carteira'){
       $this->_carteira();
     } else if ($detalhes == 'senha'){
@@ -104,7 +106,15 @@ class usuario extends controller {
     ]);
   }
 
+  private function _getEnderecos(){
+    echo json_encode(["data" => $this->enderecos->selectByUsuario()]);
+  }
+
   private function _enderecos(){
+
+    $this->enderecos->doGravar();
+
+    $this->addJS('enderecos.js');
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
       "./pages/usuario/layout/menu.php", 

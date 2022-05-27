@@ -13,4 +13,14 @@ class dataEnderecos extends model {
     $this->inputs['numero']['label'] = "Número";
   }
 
+  public function doGravar(){
+    if($_POST){
+      if(empty($_POST['id'])){
+        $this->inserir($_POST);
+      } else {
+        $this->alterar($_POST);
+      }
+    }
+  }
+
 }

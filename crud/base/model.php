@@ -7,6 +7,7 @@ class model extends conectDB {
   public $sqlBase = '';
   public $sqlBaseWherePK = '';
   public $insertBase = '';
+  public $sqlBaseUsuario = '';
   public $inputs = [];
 
   function __construct() {
@@ -56,6 +57,7 @@ class model extends conectDB {
         $insertParam = rtrim($insertParam, ",");
 
         $this->sqlBase = "SELECT {$campos} FROM  {$this->table}";
+        $this->sqlBaseUsuario = "SELECT {$campos} FROM  {$this->table} WHERE usuario_id = :usuario_id";
         $this->insertBase = "INSERT INTO {$this->table} ({$insertCampo}) VALUES ({$insertParam})";
         $this->sqlBaseWherePK = "SELECT {$campos} FROM  {$this->table} WHERE {$this->pk} = :{$this->pk}";
       }
@@ -78,6 +80,10 @@ class model extends conectDB {
 
   public function inserir($_arr){
     return $this->insert($this->insertBase, $_arr);
+  }
+
+  public function selectByUsuario(){
+    return $this->select($this->sqlBaseUsuario, ['usuario_id' => $_SESSION['usuario']->id]);
   }
 
   public function selectAll(){
