@@ -84,24 +84,26 @@ class dataUsuario extends model {
     }
   }
 
-  public function doTrocarSenha($arrPost){
-    if(!isset($arrPost['atual_senha'])){
-      setflashdata(indicator("Por favor, Preencher o campo Atual Senha", "danger"));
-    } else if(!isset($arrPost['senha'])){
-      setflashdata(indicator("Por favor, Preencher o campo Nova Senha", "danger"));
-    } else {
-      $datas = $this->selectByPk($arrPost[$this->pk]);
-      if ($datas[0]->senha == md5($arrPost['atual_senha'])){
-        $arrPost['senha'] = md5($arrPost['senha']);
-        if($this->alterar($arrPost)){
-          $datas[0]->senha = '';
-          $_SESSION['usuario'] = $datas[0];
-          setflashdata(indicator("Alteração da senha foi alterado com sucesso", "success"));
-        } else {
-          setflashdata(indicator("Falha ao realizar a alteração. Tente novamente em instantes!", "danger"));
-        }
+  public function doTrocarSenha() {
+    if($_POST){
+      if(!isset($_POST['atual_senha'])){
+        setflashdata(indicator("Por favor, Preencher o campo Atual Senha", "danger"));
+      } else if(!isset($_POST['senha'])){
+        setflashdata(indicator("Por favor, Preencher o campo Nova Senha", "danger"));
       } else {
-        setflashdata(indicator("Senha atual está errada.", "danger"));
+        $datas = $this->selectByPk($_POST[$this->pk]);
+        if ($datas[0]->senha == md5($_POST['atual_senha'])){
+          $_POST['senha'] = md5($_POST['senha']);
+          if($this->alterar($_POST)) {
+            $datas[0]->senha = '';
+            $_SESSION['usuario'] = $datas[0];
+            setflashdata(indicator("Alteração da senha foi alterado com sucesso", "success"));
+          } else {
+            setflashdata(indicator("Falha ao realizar a alteração. Tente novamente em instantes!", "danger"));
+          }
+        } else {
+          setflashdata(indicator("Senha atual está errada.", "danger"));
+        }
       }
     }
   }

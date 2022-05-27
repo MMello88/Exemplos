@@ -28,7 +28,7 @@ function setflashdata($msg) {
   $_SESSION['flash_message'] = $msg;
 }
 
-function input($label, $name, $id, $value, $type, $select = [], $col = '12', $required = false, $disabled = false){
+function input($label, $name, $id, $value, $type, $select = [], $col = '12', $order, $required = false, $disabled = false){
   $display = $type == 'hidden' ? 'none' : 'inline-block';
   if ($disabled) $required = false;
   $required = $required ? "required" : "";
@@ -36,7 +36,6 @@ function input($label, $name, $id, $value, $type, $select = [], $col = '12', $re
 
   if (count($select) > 0){
     $html = "
-      
         <div class='col-md-{$col} mb-3'>
           <label for='{$id}' style='display:{$display}'>{$label}</label>
           <div class='form-label-group'>
@@ -49,7 +48,6 @@ function input($label, $name, $id, $value, $type, $select = [], $col = '12', $re
       $html .="</select> <label for='{$id}'>{$label}</label>
           </div>
         </div>
-      
     ";
     return $html;
   } else {
@@ -77,7 +75,7 @@ function formCard($inputs, $titulo, $titulo_button = 'Alterar'){
           foreach($inputs as $key => $value) {
             //if (isset($value['value']))
               //print_r($inputs);
-            $html .= input($value['label'], $value['name'], $value['id'], $value['value'], $value['type'], $value['select'], $value['col'], $value['required'], $value['disabled']);
+            $html .= input($value['label'], $value['name'], $value['id'], $value['value'], $value['type'], $value['select'], $value['col'], $value['order'], $value['required'], $value['disabled']);
           }
   $html .= " </div>
         <hr>

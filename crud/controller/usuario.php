@@ -123,9 +123,9 @@ class usuario extends controller {
   }
 
   private function _senha() {
-    if($_POST){
-      $this->usuario->doTrocarSenha($_POST);
-    }
+    
+    $this->usuario->doTrocarSenha();
+    
 
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
@@ -137,17 +137,7 @@ class usuario extends controller {
 
   private function _empresa() {
 
-    if($_POST){
-      if(empty($_POST['id'])){
-        $_POST['id'] = null;
-        $empresa_id = $this->empresa->salvar($_POST);
-        $_SESSION['usuario']->empresa_id = $empresa_id;
-        $this->usuario->alterar(['empresa_id' => $empresa_id, 'id' => $_SESSION['usuario']->id]);
-        redirect("/usuario/perfil/empresa");
-      } else{
-        $this->empresa->alterar($_POST);
-      }
-    }
+    $this->empresa->doGravar();
     
     $empresa = $this->empresa->selectByPk($_SESSION['usuario']->empresa_id);
     if(!empty($empresa)){

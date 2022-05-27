@@ -37,7 +37,8 @@ class model extends conectDB {
             'required' => $value->Null == 'NO',
             'disabled' => false,
             'type' => 'text',
-            'col' => '12'
+            'col' => '12',
+            'order' => $key
           ];
 
           $campos .= $value->Field . ",";
@@ -59,6 +60,20 @@ class model extends conectDB {
         $this->sqlBaseWherePK = "SELECT {$campos} FROM  {$this->table} WHERE {$this->pk} = :{$this->pk}";
       }
     }
+  }
+
+  public function ordernar(){
+    $arr = [];
+    for ($i=0; $i < count($this->inputs); $i++) { 
+      foreach ($this->inputs as $key => $value) {
+        if ($value['order'] == $i){
+          break;
+        }
+      }
+      $arr[$key] = $value;
+    }
+    
+    $this->inputs = $arr;
   }
 
   public function inserir($_arr){
