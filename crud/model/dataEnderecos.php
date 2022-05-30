@@ -78,11 +78,11 @@ class dataEnderecos extends model {
     if($_POST){
       if(empty($_POST['id'])){
         $id = $this->inserir($_POST);
-        $_POST['id'] = $id;
-        echo json_encode(['status' => 'true', 'data' => $_POST]);
+        //$_POST['id'] = $id;
+        echo json_encode(['status' => 'true', 'data' => $_POST, 'INSERT' => 'TRUE']);
       } else {
         $this->alterar($_POST);
-        echo json_encode(['status' => 'true', 'data' => $_POST]);
+        echo json_encode(['status' => 'true', 'data' => $_POST, 'UPDATE' => 'TRUE']);
       }
       return true;
     } else {

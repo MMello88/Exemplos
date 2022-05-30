@@ -53,6 +53,7 @@ const load = (e) => {
   
   $('#modalFormEndereco').on('hidden.bs.modal', function (event) {  
     document.getElementById('formAdd').reset();   
+    document.getElementById('id').value = '';
   })
 }
 
@@ -61,8 +62,8 @@ const submitForm = (e) => {
   if (e !== undefined)
     e.preventDefault();
 
-    var myForm = document.getElementById('formAdd');
-    enviarViaAjax(myForm, "modalFormEndereco")
+  var myForm = document.getElementById('formAdd');
+  enviarViaAjax(myForm, "modalFormEndereco")
 }
 
 /**
