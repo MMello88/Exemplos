@@ -112,15 +112,16 @@ class usuario extends controller {
 
   private function _enderecos(){
 
-    $this->enderecos->doGravar();
-
-    $this->addJS('enderecos.js');
-    $this->viewLogado([
-      "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu.php", 
-      "./pages/usuario/enderecos.php", 
-      "./pages/usuario/layout/footer.php"
-    ]);
+    if (!$this->enderecos->doGravarAjax()){
+      
+      $this->addJS('enderecos.js');
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu.php", 
+        "./pages/usuario/enderecos.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
   }
 
   private function _carteira() {

@@ -6,7 +6,7 @@
                       <!-- .card -->
                       <div class="card card-fluid">
                         <div class="card-header">
-                          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalScrollable">Adicionar</button>
+                          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modalFormEndereco">Adicionar</button>
                         </div>
                         <!-- .card-body -->
                         <div class="card-body">
@@ -29,14 +29,14 @@
 
 
 
-<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
+<div class="modal fade" id="modalFormEndereco" tabindex="-1" role="dialog" aria-labelledby="modalFormEnderecoLabel" aria-hidden="true">
   <!-- .modal-dialog -->
   <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
     <!-- .modal-content -->
     <div class="modal-content">
       <!-- .modal-header -->
       <div class="modal-header">
-        <h5 id="exampleModalScrollableLabel" class="modal-title">Dados de Endereço</h5>
+        <h5 id="modalFormEnderecoLabel" class="modal-title">Dados de Endereço</h5>
       </div>
       <!-- /.modal-header -->
       <!-- .modal-body -->
@@ -46,6 +46,7 @@
       <!-- /.modal-body -->
       <!-- .modal-footer -->
       <div class="modal-footer">
+        <button type='submit' form="formAdd" value='perfil' class='btn btn-primary ml-auto'>Salvar</button>
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
       </div>
       <!-- /.modal-footer -->

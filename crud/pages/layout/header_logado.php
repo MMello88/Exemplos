@@ -58,7 +58,7 @@ foreach($arr as $obj){
       disabledSkinStylesheet.setAttribute('rel', '');
       disabledSkinStylesheet.setAttribute('disabled', true);
       // add flag class to html immediately
-      if (isCompact == true) document.querySelector('html').classList.add('preparing-compact-menu');
+      //if (isCompact == true) document.querySelector('html').classList.add('preparing-compact-menu');
     </script><!-- END THEME STYLES -->
     <script>base_url = "<?= BASE_URL ?>"</script>
   </head>

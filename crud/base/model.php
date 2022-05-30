@@ -78,8 +78,29 @@ class model extends conectDB {
     $this->inputs = $arr;
   }
 
-  public function inserir($_arr){
-    return $this->insert($this->insertBase, $_arr);
+  public function inserir($arrData){
+    return $this->insert($this->insertBase, $arrData);
+  }
+
+  public function alterar($arrData){
+    if(!isset($arrData[$this->pk])){
+      return false;
+    } else {
+      $campos = '';
+      $newArr[$this->pk] = $arrData[$this->pk];
+      foreach ($this->field as $key => $field) {
+        if ($field !== $this->pk){
+          if(isset($arrData[$field])){
+            $campos .=  " {$field} = :{$field},";
+            $newArr[$field] = $arrData[$field];
+          }
+        } 
+      }
+      $campos = rtrim($campos, ",");
+      $sql = "update {$this->table} set {$campos} where {$this->pk} = :{$this->pk}";
+      return $this->update($sql, $newArr);
+    }
+    
   }
 
   public function selectByUsuario(){
@@ -109,24 +130,5 @@ class model extends conectDB {
     return new $model();
   }
 
-  public function alterar($arrAss){
-    if(!isset($arrAss[$this->pk])){
-      return false;
-    } else {
-      $campos = '';
-      $newArr[$this->pk] = $arrAss[$this->pk];
-      foreach ($this->field as $key => $field) {
-        if ($field !== $this->pk){
-          if(isset($arrAss[$field])){
-            $campos .=  " {$field} = :{$field},";
-            $newArr[$field] = $arrAss[$field];
-          }
-        } 
-      }
-      $campos = rtrim($campos, ",");
-      $sql = "update {$this->table} set {$campos} where {$this->pk} = :{$this->pk}";
-      return $this->update($sql, $newArr);
-    }
-    
-  }
+
 }

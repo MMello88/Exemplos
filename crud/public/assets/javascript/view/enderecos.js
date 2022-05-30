@@ -1,5 +1,6 @@
-$(document).ready(function () {
-  $('#data-endereco').DataTable( {
+var table
+const load = (e) => {
+  table = $('#data-endereco').DataTable( {
     ajax: base_url + '/usuario/perfil/getEnderecos',
     responsive: true,
     dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
@@ -19,12 +20,58 @@ $(document).ready(function () {
     columnDefs: [{
       targets: 2,
       render: function (data, type, row, meta) {
-        console.log(data, type, row, meta);
+        //console.log(data, type, row, meta);
+        let dataRow = JSON.stringify(row);
         return `
-        <a class="btn btn-sm btn-icon btn-secondary" href="#${data}"><i class="fa fa-pencil-alt"></i></a>
-        <a class="btn btn-sm btn-icon btn-secondary" href="#${data}"><i class="far fa-trash-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormEndereco"><i class="fa fa-pencil-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormEndereco"><i class="far fa-trash-alt"></i></a>
         `
       }
     }]
   } );
-});
+
+
+  $('#modalFormEndereco').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) 
+    var row = button.data('row')
+    if (row !== undefined){
+      document.getElementById('id').value = row.id
+      document.getElementById('nome').value = row.nome
+      document.getElementById('rua').value = row.rua
+      document.getElementById('cep').value = row.cep
+      document.getElementById('numero').value = row.numero
+      document.getElementById('bairro').value = row.bairro
+      document.getElementById('complemento').value = row.complemento
+      document.getElementById('estado').value = row.estado
+      document.getElementById('cidade').value = row.cidade
+      document.getElementById('telefone').value = row.telefone
+      document.getElementById('principal').value = row.principal
+    }
+    //console.log(row);
+  })
+
+  
+  $('#modalFormEndereco').on('hidden.bs.modal', function (event) {  
+    document.getElementById('formAdd').reset();   
+  })
+}
+
+
+const submitForm = (e) => {
+  if (e !== undefined)
+    e.preventDefault();
+
+    var myForm = document.getElementById('formAdd');
+    enviarViaAjax(myForm, "modalFormEndereco")
+}
+
+/**
+ *  Submit
+ */
+  document.getElementById('formAdd').addEventListener('submit', submitForm);
+
+  /**
+  *  Carregar
+  */
+  window.addEventListener('load', load);
+
