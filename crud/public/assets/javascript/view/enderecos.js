@@ -15,16 +15,17 @@ const load = (e) => {
     columns: [
       { data: 'nome' },
       { data: 'rua' },
+      { data: 'principal' },
       { data: 'id', className: 'align-middle text-right', orderable: false, searchable: false }
     ],
     columnDefs: [{
-      targets: 2,
+      targets: 3,
       render: function (data, type, row, meta) {
         //console.log(data, type, row, meta);
         let dataRow = JSON.stringify(row);
         return `
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormEndereco"><i class="fa fa-pencil-alt"></i></a>
-        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormEndereco"><i class="far fa-trash-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="enderecos" data-campo="ativo" data-valor="Não" data-datatable="data-endereco"><i class="far fa-trash-alt"></i></a>
         `
       }
     }]
@@ -46,6 +47,7 @@ const load = (e) => {
       document.getElementById('cidade').value = row.cidade
       document.getElementById('telefone').value = row.telefone
       document.getElementById('principal').value = row.principal
+      document.getElementById('ativo').value = row.ativo
     }
     //console.log(row);
   })
@@ -63,7 +65,8 @@ const submitForm = (e) => {
     e.preventDefault();
 
   var myForm = document.getElementById('formAdd');
-  enviarViaAjax(myForm, "modalFormEndereco")
+  enviarViaAjax(myForm, "modalFormEndereco", "data-endereco")
+  table;
 }
 
 /**

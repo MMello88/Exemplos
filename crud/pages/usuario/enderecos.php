@@ -16,6 +16,7 @@
                               <tr>
                                 <th> Nome </th>
                                 <th> Endereço </th>
+                                <th> Principal </th>
                                 <th style="width:100px; min-width:100px;">&nbsp;</th>
                               </tr>
                             </thead>

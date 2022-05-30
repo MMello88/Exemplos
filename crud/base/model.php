@@ -50,16 +50,20 @@ class model extends conectDB {
             $this->pk = $value->Field;
             $this->inputs[$value->Field]['type'] = 'hidden';
           }
+
+          if($value->Field == 'ativo'){
+            $this->inputs[$value->Field]['type'] = 'hidden';
+          }
         }
 
         $campos = rtrim($campos, ",");
         $insertCampo = rtrim($insertCampo, ",");
         $insertParam = rtrim($insertParam, ",");
 
-        $this->sqlBase = "SELECT {$campos} FROM  {$this->table}";
-        $this->sqlBaseUsuario = "SELECT {$campos} FROM  {$this->table} WHERE usuario_id = :usuario_id";
+        $this->sqlBase = "SELECT {$campos} FROM  {$this->table} WHERE ativo = 'Sim'";
+        $this->sqlBaseUsuario = "SELECT {$campos} FROM  {$this->table} WHERE usuario_id = :usuario_id AND ativo = 'Sim'";
         $this->insertBase = "INSERT INTO {$this->table} ({$insertCampo}) VALUES ({$insertParam})";
-        $this->sqlBaseWherePK = "SELECT {$campos} FROM  {$this->table} WHERE {$this->pk} = :{$this->pk}";
+        $this->sqlBaseWherePK = "SELECT {$campos} FROM  {$this->table} WHERE {$this->pk} = :{$this->pk} AND ativo = 'Sim'";
       }
     }
   }
@@ -103,12 +107,21 @@ class model extends conectDB {
     
   }
 
-  public function selectByUsuario(){
-    return $this->select($this->sqlBaseUsuario, ['usuario_id' => $_SESSION['usuario']->id]);
+  public function deleteLogico(){
+    $id = $_POST['id'];
+    $tabela = $_POST['tabelaDel'];
+    $campo = $_POST['campoDel'];
+    $valor = $_POST['valorDel'];
+    $sql = "UPDATE {$tabela} SET {$campo} = '{$valor}' WHERE id = {$id}";
+    return $this->update($sql);
   }
 
-  public function selectAll(){
-    return $this->query($this->sqlBase);
+  public function selectByUsuario($sqlWhere = ''){
+    return $this->select($this->sqlBaseUsuario . $sqlWhere, ['usuario_id' => $_SESSION['usuario']->id]);
+  }
+
+  public function selectAll($sqlWhere = ''){
+    return $this->query($this->sqlBase . $sqlWhere);
   }
 
   public function selectByPk($id){

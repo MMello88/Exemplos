@@ -70,6 +70,8 @@ class dataEnderecos extends model {
     $this->inputs['usuario_id']['type'] = 'hidden';
     $this->inputs['usuario_id']['value'] = $_SESSION['usuario']->id;
     $this->inputs['usuario_id']['required'] = true;
+    
+    $this->inputs['ativo']['order'] = 12;
 
     $this->ordernar();
   }
@@ -81,8 +83,18 @@ class dataEnderecos extends model {
         //$_POST['id'] = $id;
         echo json_encode(['status' => 'true', 'data' => $_POST, 'INSERT' => 'TRUE']);
       } else {
-        $this->alterar($_POST);
-        echo json_encode(['status' => 'true', 'data' => $_POST, 'UPDATE' => 'TRUE']);
+        if(isset($_POST['tabelaDel'])){
+          if ($this->deleteLogico())
+            echo json_encode(['status' => 'true']);
+          else
+            echo json_encode(['status' => 'false']);
+        } else {
+          $this->alterar($_POST);
+          if($_POST['principal'] == 'Sim'){
+            $this->update("UPDATE enderecos SET principal = 'Não' WHERE usuario_id = {$_SESSION['usuario']->id} AND id NOT IN ({$_POST['id']})");
+          }
+          echo json_encode(['status' => 'true', 'data' => $_POST, 'UPDATE' => 'TRUE']);
+        }
       }
       return true;
     } else {
