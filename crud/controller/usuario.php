@@ -6,12 +6,14 @@ class usuario extends controller {
   public $usuario;
   public $empresa;
   public $enderecos;
+  public $carteira;
 
   function __construct() {
     parent::__construct();
     $this->usuario = $this->getModel('dataUsuario');
     $this->empresa = $this->getModel('dataEmpresas');
     $this->enderecos = $this->getModel('dataEnderecos');
+    $this->carteira = $this->getModel('dataCarteira');
     $this->data['titulo'] = "Usuário";
   }
 
@@ -85,6 +87,8 @@ class usuario extends controller {
       $this->_enderecos();
     } else if ($detalhes == 'getEnderecos'){
       $this->_getEnderecos();
+    } else if ($detalhes == 'getCarteira'){
+      $this->_getCarteira();
     } else if ($detalhes == 'carteira'){
       $this->_carteira();
     } else if ($detalhes == 'senha'){
@@ -92,6 +96,48 @@ class usuario extends controller {
     } else if ($detalhes == 'empresa'){
       $this->_empresa();
     } 
+  }
+
+  public function modulo($detalhes = ''){
+    $this->data['view_perfil'] = 'modulo';
+    $this->data['detalhes'] = $detalhes;
+    if (empty($detalhes)){
+      $this->_modulo();
+    } else if ($detalhes == 'menus'){
+      $this->_menus();
+    } else if ($detalhes == 'relacionar'){
+      $this->_relacionarMenuModulo();
+    }
+  }
+
+  private function _menus(){
+    
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu_modulo.php", 
+      "./pages/usuario/modulo/menus.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  private function _relacionarMenuModulo(){
+    
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu_modulo.php", 
+      "./pages/usuario/modulo/menumodulo.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  private function _modulo(){
+    
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu_modulo.php", 
+      "./pages/usuario/modulo/modulo.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
   }
 
   private function _perfil(){
@@ -104,6 +150,10 @@ class usuario extends controller {
       "./pages/usuario/perfil.php", 
       "./pages/usuario/layout/footer.php"
     ]);
+  }
+
+  private function _getCarteira(){
+    echo json_encode(["data" => $this->carteira->selectByUsuario()]);
   }
 
   private function _getEnderecos(){
@@ -125,12 +175,17 @@ class usuario extends controller {
   }
 
   private function _carteira() {
-    $this->viewLogado([
-      "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu.php", 
-      "./pages/usuario/carteira.php", 
-      "./pages/usuario/layout/footer.php"
-    ]);
+    if (!$this->carteira->doGravarAjax()){
+      
+      $this->addJS('carteira.js');
+
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu.php", 
+        "./pages/usuario/carteira.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
   }
 
   private function _senha() {

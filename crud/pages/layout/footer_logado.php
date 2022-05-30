@@ -47,7 +47,8 @@
     <script src="<?= ASSETS_URL ?>/assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="<?= ASSETS_URL ?>/assets/vendor/flatpickr/flatpickr.min.js"></script>
     <script src="<?= ASSETS_URL ?>/assets/vendor/easy-pie-chart/jquery.easypiechart.min.js"></script>
-    <script src="<?= ASSETS_URL ?>/assets/vendor/chart.js/Chart.min.js"></script> <!-- END PLUGINS JS -->
+    <script src="<?= ASSETS_URL ?>/assets/vendor/chart.js/Chart.min.js"></script>
+    <script src="<?= ASSETS_URL ?>/assets/vendor/toastr/toastr.min.js"></script> <!-- END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
     <script src="<?= ASSETS_URL ?>/assets/javascript/theme.min.js"></script> <!-- END THEME JS -->
     <!-- BEGIN PAGE LEVEL JS -->

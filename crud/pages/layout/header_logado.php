@@ -46,6 +46,7 @@ foreach($arr as $obj){
     <link rel="stylesheet" href="<?= ASSETS_URL ?>/assets/vendor/open-iconic/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="<?= ASSETS_URL ?>/assets/vendor/fontawesome/css/all.css">
     <link rel="stylesheet" href="<?= ASSETS_URL ?>/assets/vendor/flatpickr/flatpickr.min.css"><!-- END PLUGINS STYLES -->
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>/assets/vendor/toastr/toastr.min.css" >
     <!-- BEGIN THEME STYLES -->
     <link rel="stylesheet" href="<?= ASSETS_URL ?>/assets/stylesheets/theme.min.css" data-skin="default">
     <link rel="stylesheet" href="<?= ASSETS_URL ?>/assets/stylesheets/theme-dark.min.css" data-skin="dark">
@@ -63,10 +64,28 @@ foreach($arr as $obj){
     <script>base_url = "<?= BASE_URL ?>"</script>
   </head>
   <body>
-      <!-- .app -->
-      <div class="app">
+    <!-- toasts container -->
+    <div aria-live="polite" aria-atomic="true">
+      <!-- Position it -->
+      <div style="position: fixed; top: 0.5rem; right: 1rem; z-index: 2050">
+        <!-- .toast -->
+        <div id="toast1" class="toast fade hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+          <div class="toast-header bg-success">
+            <strong class="mr-auto text-warning" id="toast-title">Toast</strong>
+          </div>
+          <div class="toast-body border border-light bg-light">
+            <p id="toast-message">Hello, world! This is a toast message.</p>
+          </div>
+        </div>
+        <!-- /.toast -->
+      </div>
+    </div>
+    <!-- /toasts container -->
 
-<!--[if lt IE 10]>
+    <!-- .app -->
+    <div class="app">
+
+      <!--[if lt IE 10]>
       <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
       <![endif]-->
       <!-- .app-header -->
@@ -384,5 +403,8 @@ foreach($arr as $obj){
           </footer><!-- /Skin changer -->
         </div><!-- /.aside-content -->
       </aside><!-- /.app-aside -->
+
+
       <!-- .app-main -->
       <main class="app-main">
+

@@ -12,14 +12,25 @@ const enviarViaAjax = (form, idModal, dataTableToRefresh = '') => {
     success: function(data) {
       console.log(data);
       if (data.status == 'true') {
+        
+        document.getElementById('toast-title').innerHTML = data.title
+        document.getElementById('toast-message').innerHTML = data.message
+        $('#toast1').toast('show');
+
         if (dataTableToRefresh.length > 0)
           $('#'+dataTableToRefresh).DataTable().ajax.reload()
+
         $('#'+idModal).modal('hide');
       } else {
-        alert('failed');
+        document.getElementById('toast-title').innerHTML = data.title
+        document.getElementById('toast-message').innerHTML = data.message
+        $('#toast1').toast('show');
       }
     },
     error: function(data){
+      document.getElementById('toast-title').innerHTML = 'Aviso'
+      document.getElementById('toast-message').innerHTML = 'Desculpe pelo transtorno. Já estamos verificando o problema.'
+      $('#toast1').toast('show');
       console.log(data);
     }
   });

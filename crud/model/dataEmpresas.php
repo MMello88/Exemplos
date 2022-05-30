@@ -76,6 +76,9 @@ class dataEmpresas extends model {
     $this->inputs['pago']['value'] = 'Não';
     $this->inputs['pago']['order'] = 13;
 
+    $this->inputs['ativo']['order'] = 14;
+    $this->inputs['ativo']['value'] = 'Sim';
+
     $this->ordernar();
   }
 

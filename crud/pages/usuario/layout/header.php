@@ -23,6 +23,10 @@
                   <?php if (in_array($usuario->tipo,["Laboratório"])) : ?>
                   <a class="nav-link <?= $view_perfil == "parceiro" ? "active" : "" ?>" href="<?= BASE_URL ?>/usuario/parceiro">Parceiros</a> 
                   <?php endif; ?>
+
+                  <?php if (in_array($usuario->tipo,["Administrador"])) : ?>
+                    <a class="nav-link <?= $view_perfil == "modulo" ? "active" : "" ?>" href="<?= BASE_URL ?>/usuario/modulo">Modulo</a> 
+                  <?php endif; ?>
                 </div><!-- /.nav -->
               </div><!-- /.nav-scroller -->
             </nav><!-- /.page-navs -->

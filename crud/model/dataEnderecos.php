@@ -80,20 +80,46 @@ class dataEnderecos extends model {
     if($_POST){
       if(empty($_POST['id'])){
         $id = $this->inserir($_POST);
-        //$_POST['id'] = $id;
-        echo json_encode(['status' => 'true', 'data' => $_POST, 'INSERT' => 'TRUE']);
+        $_POST['id'] = $id;
+        echo json_encode([
+          'status' => 'true', 
+          'title' => 'Pronto',
+          'message' => 'Cadastro realizado com sucesso!',
+          'data' => $_POST
+        ]);
       } else {
         if(isset($_POST['tabelaDel'])){
-          if ($this->deleteLogico())
-            echo json_encode(['status' => 'true']);
-          else
-            echo json_encode(['status' => 'false']);
-        } else {
-          $this->alterar($_POST);
-          if($_POST['principal'] == 'Sim'){
-            $this->update("UPDATE enderecos SET principal = 'Não' WHERE usuario_id = {$_SESSION['usuario']->id} AND id NOT IN ({$_POST['id']})");
+          if ($this->deleteLogico()) {
+            echo json_encode([
+              'status' => 'true',
+              'title' => 'Pronto',
+              'message' => 'Delete realizado com sucesso!',
+            ]);
+          } else {
+            echo json_encode([
+              'status' => 'false',
+              'title' => 'Falha',
+              'message' => 'Falha ao realizar o delete. Tente novamente em instantes.',
+            ]);
           }
-          echo json_encode(['status' => 'true', 'data' => $_POST, 'UPDATE' => 'TRUE']);
+        } else {
+          if($this->alterar($_POST)){
+            if($_POST['principal'] == 'Sim'){
+              $this->update("UPDATE enderecos SET principal = 'Não' WHERE usuario_id = {$_SESSION['usuario']->id} AND id NOT IN ({$_POST['id']})");
+            }
+            echo json_encode([
+              'status' => 'true',
+              'title' => 'Pronto',
+              'message' => 'Dados alterado com sucesso!',
+              'data' => $_POST
+            ]);
+          } else {
+            echo json_encode([
+              'status' => 'false',
+              'title' => 'Falha',
+              'message' => 'Falha ao realizar a alteração. Tente novamente em instantes.',
+            ]);
+          }
         }
       }
       return true;
