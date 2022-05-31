@@ -35,7 +35,7 @@ function () {
         }]
       }; // init chart bar
 
-      var canvas = $('#completion-tasks')[0].getContext('2d');
+      var canvas = $('#completion-tasks');//[0].getContext('2d');
       var chart = new Chart(canvas, {
         type: 'bar',
         data: data,

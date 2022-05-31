@@ -13,7 +13,7 @@
                       <nav class="nav nav-tabs flex-column border-0">
                         <a href="<?= BASE_URL ?>/usuario/modulo" class="nav-link <?=  empty($detalhes) ? "active": "" ?>">Modulos</a> 
                         <a href="<?= BASE_URL ?>/usuario/modulo/menus" class="nav-link <?=   $detalhes == "menus" ? "active": "" ?>">Menus</a> 
-                        <a href="<?= BASE_URL ?>/usuario/modulo/relacionar" class="nav-link <?=   $detalhes == "relacionar" ? "active": "" ?>">Relacionar Menu com Modulos</a> 
+                        <a href="<?= BASE_URL ?>/usuario/modulo/projeto" class="nav-link <?=   $detalhes == "projeto" ? "active": "" ?>">Projeto</a> 
                       </nav><!-- /.nav -->
                     </div><!-- /.card -->
                   </div><!-- /grid column -->

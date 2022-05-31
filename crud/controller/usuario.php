@@ -7,6 +7,9 @@ class usuario extends controller {
   public $empresa;
   public $enderecos;
   public $carteira;
+  public $modulos;
+  public $menus;
+  public $projeto;
 
   function __construct() {
     parent::__construct();
@@ -14,6 +17,7 @@ class usuario extends controller {
     $this->empresa = $this->getModel('dataEmpresas');
     $this->enderecos = $this->getModel('dataEnderecos');
     $this->carteira = $this->getModel('dataCarteira');
+    $this->modulos = $this->getModel('dataModulos');
     $this->data['titulo'] = "Usuário";
   }
 
@@ -105,8 +109,10 @@ class usuario extends controller {
       $this->_modulo();
     } else if ($detalhes == 'menus'){
       $this->_menus();
-    } else if ($detalhes == 'relacionar'){
-      $this->_relacionarMenuModulo();
+    } else if ($detalhes == 'projeto'){
+      $this->_projeto();
+    } else if ($detalhes == 'getModulos'){
+      $this->_getModulos();
     }
   }
 
@@ -120,24 +126,27 @@ class usuario extends controller {
     ]);
   }
 
-  private function _relacionarMenuModulo(){
+  private function _projeto(){
     
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
       "./pages/usuario/layout/menu_modulo.php", 
-      "./pages/usuario/modulo/menumodulo.php", 
+      "./pages/usuario/modulo/projeto.php", 
       "./pages/usuario/layout/footer.php"
     ]);
   }
 
   private function _modulo(){
-    
-    $this->viewLogado([
-      "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu_modulo.php", 
-      "./pages/usuario/modulo/modulo.php", 
-      "./pages/usuario/layout/footer.php"
-    ]);
+    if (!$this->modulos->doGravarAjax()){
+      
+      $this->addJS('modulos.js');
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu_modulo.php", 
+        "./pages/usuario/modulo/modulo.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
   }
 
   private function _perfil(){
@@ -150,6 +159,10 @@ class usuario extends controller {
       "./pages/usuario/perfil.php", 
       "./pages/usuario/layout/footer.php"
     ]);
+  }
+
+  private function _getModulos(){
+    echo json_encode(["data" => $this->modulos->selectAll()]);
   }
 
   private function _getCarteira(){

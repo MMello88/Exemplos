@@ -72,6 +72,7 @@ class dataEnderecos extends model {
     $this->inputs['usuario_id']['required'] = true;
     
     $this->inputs['ativo']['order'] = 12;
+    $this->inputs['ativo']['value'] = 'Sim';
 
     $this->ordernar();
   }
