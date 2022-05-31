@@ -110,6 +110,33 @@ CREATE TABLE `enderecos` (
 
 insert  into `enderecos`(`id`,`nome`,`rua`,`numero`,`bairro`,`complemento`,`cep`,`estado`,`cidade`,`telefone`,`principal`,`usuario_id`,`ativo`) values (1,'teste','teste','teste','teste','teste','teste','te','test','teste','Não',1,'Não'),(3,'Matheus','Miguel','asf','adf','adf','af','ad','asf','asf','Não',1,'Sim'),(4,'matheus','xxxxx','xxx','xx','xxx','xxx','xx','xxxx','xxx','Não',1,'Sim'),(5,'sergio','yyy','y','y','y','y','y','y','y','Não',1,'Não'),(6,'Clinica Matheus','Miguel','40339455','centro','AP 51','14180000','ad','Ribeirão Preto','+5516991838523','Sim',1,'Sim');
 
+/*Table structure for table `menus` */
+
+DROP TABLE IF EXISTS `menus`;
+
+CREATE TABLE `menus` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `menus` */
+
+/*Table structure for table `modulos` */
+
+DROP TABLE IF EXISTS `modulos`;
+
+CREATE TABLE `modulos` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+/*Data for the table `modulos` */
+
 /*Table structure for table `pages` */
 
 DROP TABLE IF EXISTS `pages`;
@@ -128,6 +155,25 @@ CREATE TABLE `pages` (
 /*Data for the table `pages` */
 
 insert  into `pages`(`id`,`tipo`,`param`,`value`,`valueImg`,`ativo`) values (1,'header','titulo','Bem vindo ao Pets',NULL,'Sim'),(2,'header','meta','pet; laboratório; petshop; ',NULL,'Sim');
+
+/*Table structure for table `projeto` */
+
+DROP TABLE IF EXISTS `projeto`;
+
+CREATE TABLE `projeto` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `modulos_id` bigint(20) NOT NULL,
+  `menus_id` bigint(20) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_projeto_modulos` (`modulos_id`),
+  KEY `fk_projeto_menus` (`menus_id`),
+  CONSTRAINT `fk_projeto_menus` FOREIGN KEY (`menus_id`) REFERENCES `menus` (`id`),
+  CONSTRAINT `fk_projeto_modulos` FOREIGN KEY (`modulos_id`) REFERENCES `modulos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `projeto` */
 
 /*Table structure for table `usuario` */
 
