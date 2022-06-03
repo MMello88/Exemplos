@@ -18,6 +18,8 @@ class usuario extends controller {
     $this->enderecos = $this->getModel('dataEnderecos');
     $this->carteira = $this->getModel('dataCarteira');
     $this->modulos = $this->getModel('dataModulos');
+    $this->menus = $this->getModel('dataMenus');
+    $this->projetos = $this->getModel('dataProjetos');
     $this->data['titulo'] = "Usuário";
   }
 
@@ -113,27 +115,38 @@ class usuario extends controller {
       $this->_projeto();
     } else if ($detalhes == 'getModulos'){
       $this->_getModulos();
+    } else if ($detalhes == 'getMenus'){
+      $this->_getMenus();
+    } else if ($detalhes == 'getProjetos'){
+      $this->_getProjetos();
     }
   }
 
   private function _menus(){
     
-    $this->viewLogado([
-      "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu_modulo.php", 
-      "./pages/usuario/modulo/menus.php", 
-      "./pages/usuario/layout/footer.php"
-    ]);
+    if (!$this->menus->doGravarAjax()){
+      $this->addJS('menus.js');
+
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu_modulo.php", 
+        "./pages/usuario/modulo/menus.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
   }
 
   private function _projeto(){
-    
-    $this->viewLogado([
-      "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu_modulo.php", 
-      "./pages/usuario/modulo/projeto.php", 
-      "./pages/usuario/layout/footer.php"
-    ]);
+    if (!$this->projetos->doGravarAjax()){
+
+      $this->addJS('projetos.js');
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu_modulo.php", 
+        "./pages/usuario/modulo/projeto.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
   }
 
   private function _modulo(){
@@ -159,6 +172,14 @@ class usuario extends controller {
       "./pages/usuario/perfil.php", 
       "./pages/usuario/layout/footer.php"
     ]);
+  }
+
+  private function _getProjetos(){
+    echo json_encode(["data" => $this->projetos->getAll()]);
+  }
+
+  private function _getMenus(){
+    echo json_encode(["data" => $this->menus->selectAll()]);
   }
 
   private function _getModulos(){

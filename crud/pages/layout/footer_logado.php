@@ -17,7 +17,7 @@
           <input type="hidden" id="idDel" name="id" value="">
           <input type="hidden" id="tabelaDel" name="tabelaDel" value="">
           <input type="hidden" id="campoStatus" name="campoDel" value="">
-          <input type="hidden" id="valorStatus" name="val orDel" value="">
+          <input type="hidden" id="valorStatus" name="valorDel" value="">
           <input type="hidden" id="datatable" value="">
         </form>
       </div>
