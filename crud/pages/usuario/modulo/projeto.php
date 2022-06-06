@@ -15,8 +15,6 @@
                             <thead>
                               <tr>
                                 <th> Projeto </th>
-                                <th> Modulo </th>
-                                <th> Menu </th>
                                 <th style="width:100px; min-width:100px;">&nbsp;</th>
                               </tr>
                             </thead>

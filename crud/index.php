@@ -10,14 +10,22 @@ if (isset($_SERVER['PATH_INFO'])){
     $class = $parts[1];
     $method = "";
     $value = "";
+    $value1 = "";
   } else if (count($parts) == 3){
     $class = $parts[1];
     $method = $parts[2];
     $value = "";
-  } else if (count($parts) >= 4){
+    $value1 = "";
+  } else if (count($parts) == 4){
     $class = $parts[1];
     $method = $parts[2];
     $value = $parts[3];
+    $value1 = "";
+  } else if (count($parts) >= 5){
+    $class = $parts[1];
+    $method = $parts[2];
+    $value = $parts[3];
+    $value1 = $parts[4];
   }
 
   if (file_exists("./controller/{$class}.php")){
@@ -27,7 +35,8 @@ if (isset($_SERVER['PATH_INFO'])){
     if (!empty($method)){
       if (method_exists($obj, $method)){
         if (empty($value)) $obj->$method();
-        else $obj->$method($value);
+        else if (empty($value1)) $obj->$method($value);
+        else $obj->$method($value, $value1);
       } else {
         echo "Método não existe, por favor contrui-lo.";
       }

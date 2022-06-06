@@ -52,7 +52,7 @@ class usuario extends controller {
     ]);
   }
 
-  public function parceiro($detalhes = ''){
+  public function parceiro($detalhes = '', $id = ''){
     $this->data['view_perfil'] = 'parceiro';
     $this->data['detalhes'] = $detalhes;
     if(in_array($_SESSION['usuario']->tipo,["Laboratório"])){
@@ -84,7 +84,7 @@ class usuario extends controller {
     ]);
   }
 
-  public function perfil($detalhes = ''){
+  public function perfil($detalhes = '', $id = ''){
     $this->data['view_perfil'] = 'perfil';
     $this->data['detalhes'] = $detalhes;
     if (empty($detalhes)){
@@ -104,7 +104,7 @@ class usuario extends controller {
     } 
   }
 
-  public function modulo($detalhes = ''){
+  public function modulo($detalhes = '', $id = ''){
     $this->data['view_perfil'] = 'modulo';
     $this->data['detalhes'] = $detalhes;
     if (empty($detalhes)){
@@ -175,7 +175,7 @@ class usuario extends controller {
   }
 
   private function _getProjetos(){
-    echo json_encode(["data" => $this->projetos->getAll()]);
+    echo json_encode(["data" => $this->projetos->selectAll()]);
   }
 
   private function _getMenus(){

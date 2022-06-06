@@ -133,9 +133,11 @@ CREATE TABLE `modulos` (
   `nome` varchar(255) NOT NULL,
   `ativo` enum('Sim','Não') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `modulos` */
+
+insert  into `modulos`(`id`,`nome`,`ativo`) values (1,'Estoque','Sim'),(2,'Compras','Sim'),(3,'Agenda','Sim'),(4,'Exames','Sim');
 
 /*Table structure for table `pages` */
 
@@ -156,24 +158,20 @@ CREATE TABLE `pages` (
 
 insert  into `pages`(`id`,`tipo`,`param`,`value`,`valueImg`,`ativo`) values (1,'header','titulo','Bem vindo ao Pets',NULL,'Sim'),(2,'header','meta','pet; laboratório; petshop; ',NULL,'Sim');
 
-/*Table structure for table `projeto` */
+/*Table structure for table `projetos` */
 
-DROP TABLE IF EXISTS `projeto`;
+DROP TABLE IF EXISTS `projetos`;
 
-CREATE TABLE `projeto` (
+CREATE TABLE `projetos` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) NOT NULL,
-  `modulos_id` bigint(20) NOT NULL,
-  `menus_id` bigint(20) NOT NULL,
   `ativo` enum('Sim','Não') NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_projeto_modulos` (`modulos_id`),
-  KEY `fk_projeto_menus` (`menus_id`),
-  CONSTRAINT `fk_projeto_menus` FOREIGN KEY (`menus_id`) REFERENCES `menus` (`id`),
-  CONSTRAINT `fk_projeto_modulos` FOREIGN KEY (`modulos_id`) REFERENCES `modulos` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
-/*Data for the table `projeto` */
+/*Data for the table `projetos` */
+
+insert  into `projetos`(`id`,`nome`,`ativo`) values (1,'teste1','Sim'),(2,'Matheus de Mello','Sim');
 
 /*Table structure for table `usuario` */
 
@@ -194,11 +192,11 @@ CREATE TABLE `usuario` (
   UNIQUE KEY `uk_email` (`email`),
   KEY `users_empresa_id_foreign` (`empresa_id`),
   CONSTRAINT `users_empresa_id_foreign` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `usuario` */
 
-insert  into `usuario`(`id`,`nome`,`email`,`senha`,`tipo`,`avatar`,`cpf_cnpj`,`ativo`,`telefone`,`empresa_id`) values (1,'Matheus de Mello','matheusnarciso@hotmail.com','e10adc3949ba59abbe56e057f20f883e','Administrador',NULL,'36848874809','Sim','16991838523',21),(2,'','','','Administrador',NULL,NULL,'Sim',NULL,NULL);
+insert  into `usuario`(`id`,`nome`,`email`,`senha`,`tipo`,`avatar`,`cpf_cnpj`,`ativo`,`telefone`,`empresa_id`) values (1,'Matheus de Mello','matheusnarciso@hotmail.com','e10adc3949ba59abbe56e057f20f883e','Administrador',NULL,'36848874809','Sim','16991838523',21);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

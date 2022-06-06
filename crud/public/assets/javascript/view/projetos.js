@@ -14,12 +14,10 @@ const load = (e) => {
     },
     columns: [
       { data: 'nome' },
-      { data: 'modulo' },
-      { data: 'menu' },
       { data: 'id', className: 'align-middle text-right', orderable: false, searchable: false }
     ],
     columnDefs: [{
-      targets: 3,
+      targets: 1,
       render: function (data, type, row, meta) {
         //console.log(data, type, row, meta);
         let dataRow = JSON.stringify(row);
@@ -29,7 +27,7 @@ const load = (e) => {
         `
       }
     }]
-  } );
+  });
 
 
   $('#modalForm').on('show.bs.modal', function (event) {
@@ -38,13 +36,9 @@ const load = (e) => {
     if (row !== undefined){
       document.getElementById('id').value = row.id
       document.getElementById('nome').value = row.nome
-      document.getElementById('modulos_id').value = row.modulos_id
-      document.getElementById('menus_id').value = row.menus_id
       document.getElementById('ativo').value = row.ativo
     }
-    //console.log(row);
   })
-
   
   $('#modalForm').on('hidden.bs.modal', function (event) {  
     document.getElementById('formAdd').reset();   
