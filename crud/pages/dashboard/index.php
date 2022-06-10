@@ -4,7 +4,7 @@
   <div class="page-inner">
     <!-- .page-title-bar -->
     <header class="page-title-bar">
-      <?= $this->getIndicadorMessage(); ?>
+      <?= getflashdata() ?>
       <!-- page title stuff goes here -->
       <h1 class="page-title">Page title</h1>
     </header>

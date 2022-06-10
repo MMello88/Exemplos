@@ -12,6 +12,10 @@ class dataUsuario extends model {
     parent::__construct();
   }
 
+  protected function validate(){
+    return true;
+  }
+  
   public function doSignup($arrPost){
     if(!isset($arrPost['nome'])){
       setflashdata(indicator("Por favor, Preencher o campo Nome", "danger"));

@@ -7,7 +7,7 @@ class dataProjetos extends model {
     $this->table = 'projetos';
     $this->pk = "id";
     parent::__construct();
-    // $this->modulos = $this->getModel('dataModulos');
+    // $this->modulos = getModel('dataModulos');
 
     $this->inputs['id']['label'] = 'Identificador';
     $this->inputs['id']['order'] = 0;
@@ -29,6 +29,10 @@ class dataProjetos extends model {
     $this->ordernar();
   }
 
+  protected function validate(){
+    return true;
+  }
+  
   public function doGravarAjax(){
     if($_POST){
       if(empty($_POST['id'])){

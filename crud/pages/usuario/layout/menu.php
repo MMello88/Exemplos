@@ -2,7 +2,7 @@
             <div class="page-inner">
               <!-- .page-section -->
               <div class="page-section">
-                <?= $this->getIndicadorMessage(); ?>
+                <?= getflashdata() ?>
                 <!-- grid row -->
                 <div class="row">
                   <!-- grid column -->

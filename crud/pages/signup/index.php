@@ -19,9 +19,7 @@
         <p> Already have an account? please <a href="<?= BASE_URL ?>/login">Login</a> </p>
       </header><!-- form -->
       <form class="auth-form" action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-        <?php
-          $this->getIndicadorMessage();
-        ?>
+        <?php getflashdata() ?>
         <input type="hidden" name="tipo" value="Laboratório">
         <!-- .form-group -->
         <div class="form-group">

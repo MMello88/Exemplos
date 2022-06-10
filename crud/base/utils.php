@@ -1,5 +1,10 @@
 <?php
 
+function getModel($model){
+  require_once("./model/{$model}.php");
+  return new $model();
+}  
+
 function redirect($page){
   header("Location: " . BASE_URL . "{$page}");
   exit;
@@ -26,6 +31,11 @@ function indicator($msg, $alert) {
 
 function setflashdata($msg) {
   $_SESSION['flash_message'] = $msg;
+}
+
+function getflashdata(){
+  echo isset($_SESSION['flash_message']) ? $_SESSION['flash_message'] : "";
+  unset($_SESSION['flash_message']);
 }
 
 function input($label, $name, $id, $value, $type, $select = [], $col = '12', $order, $required = false, $disabled = false){

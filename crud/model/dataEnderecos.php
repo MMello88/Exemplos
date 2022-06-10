@@ -77,6 +77,10 @@ class dataEnderecos extends model {
     $this->ordernar();
   }
 
+  protected function validate(){
+    return true;
+  }
+  
   public function doGravarAjax(){
     if($_POST){
       if(empty($_POST['id'])){

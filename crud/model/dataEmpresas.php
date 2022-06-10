@@ -9,8 +9,8 @@ class dataEmpresas extends model {
     $this->pk = "id";
     parent::__construct();
     
-    $this->atividades = $this->getModel("dataAtividades");
-    $this->usuario = $this->getModel("dataUsuario");
+    $this->atividades = getModel("dataAtividades");
+    $this->usuario = getModel("dataUsuario");
     $data = $this->atividades->selectAll();
     
     /*$pago = [
@@ -82,26 +82,26 @@ class dataEmpresas extends model {
     $this->ordernar();
   }
 
-  private function validate($_arr){
-    if((!isset($_arr['atividade_id'])) or (empty($_arr['atividade_id']))){
+  protected function validate(){
+    if((!isset($_POST['atividade_id'])) or (empty($_POST['atividade_id']))){
       setflashdata(indicator("Por favor, Preencher o campo Atividade", "danger"));
-    } else if((!isset($_arr['razao_social'])) or (empty($_arr['razao_social']))) { 
+    } else if((!isset($_POST['razao_social'])) or (empty($_POST['razao_social']))) { 
       setflashdata(indicator("Por favor, Preencher o campo Razão Social", "danger"));
-    } else if((!isset($_arr['nome_fantasia'])) or (empty($_arr['nome_fantasia']))) {
+    } else if((!isset($_POST['nome_fantasia'])) or (empty($_POST['nome_fantasia']))) {
       setflashdata(indicator("Por favor, Preencher o campo Nome Fantasia", "danger"));
-    } else if((!isset($_arr['cep'])) or (empty($_arr['cep']))) {
+    } else if((!isset($_POST['cep'])) or (empty($_POST['cep']))) {
       setflashdata(indicator("Por favor, Preencher o campo CEP", "danger"));
-    } else if((!isset($_arr['endereco'])) or (empty($_arr['endereco']))) {
+    } else if((!isset($_POST['endereco'])) or (empty($_POST['endereco']))) {
       setflashdata(indicator("Por favor, Preencher o campo Endereço", "danger"));
-    } else if((!isset($_arr['numero'])) or (empty($_arr['numero']))) {
+    } else if((!isset($_POST['numero'])) or (empty($_POST['numero']))) {
       setflashdata(indicator("Por favor, Preencher o campo Número", "danger"));
-    } else if((!isset($_arr['bairro'])) or (empty($_arr['bairro']))) {
+    } else if((!isset($_POST['bairro'])) or (empty($_POST['bairro']))) {
       setflashdata(indicator("Por favor, Preencher o campo Bairro", "danger"));
-    } else if((!isset($_arr['cidade'])) or (empty($_arr['cidade']))) {
+    } else if((!isset($_POST['cidade'])) or (empty($_POST['cidade']))) {
       setflashdata(indicator("Por favor, Preencher o campo Cidade", "danger"));
-    } else if((!isset($_arr['celular'])) or (empty($_arr['celular']))) {
+    } else if((!isset($_POST['celular'])) or (empty($_POST['celular']))) {
       setflashdata(indicator("Por favor, Preencher o campo Celular", "danger"));
-    } else if((!isset($_arr['dt_experiencia'])) or (empty($_arr['dt_experiencia']))) {
+    } else if((!isset($_POST['dt_experiencia'])) or (empty($_POST['dt_experiencia']))) {
       setflashdata(indicator("Por favor, Preencher o campo Data Experiência", "danger"));
     } else {
       return true;

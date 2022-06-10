@@ -38,19 +38,4 @@ class controller extends conectDB {
       }
       include("./pages/layout/footer_logado.php");
     }
-
-
-    protected function getModel($model){
-      require_once("./model/{$model}.php");
-      return new $model();
-    }
-
-    public function getIndicadorMessage(){
-      if (isset($_SESSION['flash_message']))
-        echo $_SESSION['flash_message'];
-      unset($_SESSION['flash_message']);
-    }
-
-    
-
 }

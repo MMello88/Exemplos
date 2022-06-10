@@ -66,7 +66,7 @@ class dataCarteira extends model {
     $this->ordernar();
   }
 
-  private function validate(){
+  protected function validate(){
     $arrMessage = [];
     if((!isset($_POST['numero'])) or (empty($_POST['numero']))) {
       $arrMessage = [
@@ -134,56 +134,4 @@ class dataCarteira extends model {
     echo json_encode($arrMessage);
     return false;
   }
-
-  public function doGravarAjax(){
-    if($_POST){
-      if ($this->validate()){       
-        if(empty($_POST['id'])){
-          $id = $this->inserir($_POST);
-          $_POST['id'] = $id;
-          echo json_encode([
-            'status' => 'true', 
-            'title' => 'Pronto',
-            'message' => 'Cadastro realizado com sucesso!',
-            'data' => $_POST
-          ]);
-        } else {
-          if(isset($_POST['tabelaDel'])){
-            if ($this->deleteLogico()) {
-              echo json_encode([
-                'status' => 'true',
-                'title' => 'Pronto',
-                'message' => 'Delete realizado com sucesso!',
-              ]);
-            } else {
-              echo json_encode([
-                'status' => 'false',
-                'title' => 'Falha',
-                'message' => 'Falha ao realizar o delete. Tente novamente em instantes.',
-              ]);
-            }
-          } else {
-            if ($this->alterar($_POST)){
-              echo json_encode([
-                'status' => 'true',
-                'title' => 'Pronto',
-                'message' => 'Dados alterado com sucesso!',
-                'data' => $_POST
-              ]);
-            } else {
-              echo json_encode([
-                'status' => 'false',
-                'title' => 'Falha',
-                'message' => 'Falha ao realizar a alteração. Tente novamente em instantes.',
-              ]);
-            }
-          }
-        }
-      }
-      return true;
-    } else {
-      return false;
-    }
-  }
-
 }

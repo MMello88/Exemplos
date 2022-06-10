@@ -1,6 +1,6 @@
 <?php
 
-class model extends conectDB {
+abstract class model extends conectDB {
     
   public $data;
   protected $arrJS;
@@ -138,10 +138,75 @@ class model extends conectDB {
     return $this->select($sql, $where);
   }
 
-  protected function getModel($model){
-    require_once("./model/{$model}.php");
-    return new $model();
+  /**
+   * Validar os campos post
+   * @return bool
+   */
+  abstract protected function validate();
+
+  protected $afterInsert = null;
+  protected $beforeInsert = null;
+  protected $afterUpdate = null;
+  protected $beforeUpdate = null;
+  protected $afterDelete = null;
+  protected $beforeDelete = null;
+
+  public function doGravarAjax(){
+    if($_POST){
+      if ($this->validate()){
+        if(empty($_POST['id'])){
+          $this->beforeInsert();
+          $id = $this->inserir($_POST);
+          $this->afterInsert($id);
+          $_POST['id'] = $id;
+          echo json_encode([
+            'status' => 'true', 
+            'title' => 'Pronto',
+            'message' => 'Cadastro realizado com sucesso!',
+            'data' => $_POST
+          ]);
+        } else {
+          if(isset($_POST['tabelaDel'])){
+            $this->beforeDelete();
+            if ($this->deleteLogico()) {
+              $this->afterDelete($_POST['id']);
+              echo json_encode([
+                'status' => 'true',
+                'title' => 'Pronto',
+                'message' => 'Delete realizado com sucesso!',
+              ]);
+            } else {
+              echo json_encode([
+                'status' => 'false',
+                'title' => 'Falha',
+                'message' => 'Falha ao realizar o delete. Tente novamente em instantes.',
+              ]);
+            }
+          } else {
+            $this->beforeUpdate();
+            if ($this->alterar($_POST)){
+              $this->afterUpdate($_POST['id']);
+              echo json_encode([
+                'status' => 'true',
+                'title' => 'Pronto',
+                'message' => 'Dados alterado com sucesso!',
+                'data' => $_POST
+              ]);
+            } else {
+              echo json_encode([
+                'status' => 'false',
+                'title' => 'Falha',
+                'message' => 'Falha ao realizar a alteração. Tente novamente em instantes.',
+              ]);
+            }
+          }
+        }
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
-
-
 }

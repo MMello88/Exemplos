@@ -8,7 +8,7 @@ class signup extends controller {
   function __construct() {
     if (isset($_SESSION['usuario'])) redirect("/dashboard");
     parent::__construct();
-    $this->usuario = $this->getModel('dataUsuario');
+    $this->usuario = getModel('dataUsuario');
   }
 
   public function index(){

@@ -19,9 +19,7 @@
         </p>
       </header><!-- form -->
       <form class="auth-form" action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
-        <?php
-          $this->getIndicadorMessage();
-        ?>
+        <?php getflashdata() ?>
         <!-- .form-group -->
         <div class="form-group">
           <div class="form-label-group">

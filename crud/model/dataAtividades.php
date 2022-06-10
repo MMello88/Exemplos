@@ -8,4 +8,8 @@ class dataAtividades extends model {
     $this->pk = "id";
     parent::__construct();
   }
+
+  protected function validate(){
+    return true;
+  }
 }

@@ -13,29 +13,19 @@ class usuario extends controller {
 
   function __construct() {
     parent::__construct();
-    $this->usuario = $this->getModel('dataUsuario');
-    $this->empresa = $this->getModel('dataEmpresas');
-    $this->enderecos = $this->getModel('dataEnderecos');
-    $this->carteira = $this->getModel('dataCarteira');
-    $this->modulos = $this->getModel('dataModulos');
-    $this->menus = $this->getModel('dataMenus');
-    $this->projetos = $this->getModel('dataProjetos');
+    $this->usuario = getModel('dataUsuario');
+    $this->empresa = getModel('dataEmpresas');
+    $this->enderecos = getModel('dataEnderecos');
+    $this->carteira = getModel('dataCarteira');
+    $this->modulos = getModel('dataModulos');
+    $this->menus = getModel('dataMenus');
+    $this->projetos = getModel('dataProjetos');
     $this->data['titulo'] = "Usuário";
   }
 
   public function index(){
     $this->addJS('usuario.js');
     $this->viewLogado("./pages/usuario/index.php");
-  }
-
-  public function editar($id = ''){
-    echo "editar chegou {$id}";
-    $this->view("./pages/usuario/editar.php");
-  }
-
-  public function deletar($id){
-    echo "deletar chegou {$id}";
-    $this->view("./pages/usuario/deletar.php");
   }
 
   public function logout(){
@@ -47,7 +37,7 @@ class usuario extends controller {
     $this->data['view_perfil'] = 'overview';
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
-      "./pages/usuario/overview.php", 
+      "./pages/usuario/perfil/overview.php", 
       "./pages/usuario/layout/footer.php"
     ]);
   }
@@ -66,24 +56,6 @@ class usuario extends controller {
     }
   }
 
-  private function _parceiro(){
-    $this->viewLogado([
-      "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu_parceiro.php", 
-      "./pages/usuario/parceiro.php", 
-      "./pages/usuario/layout/footer.php"
-    ]);
-  }
-
-  private function _site(){
-    $this->viewLogado([
-      "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu_parceiro.php", 
-      "./pages/usuario/site.php", 
-      "./pages/usuario/layout/footer.php"
-    ]);
-  }
-
   public function perfil($detalhes = '', $id = ''){
     $this->data['view_perfil'] = 'perfil';
     $this->data['detalhes'] = $detalhes;
@@ -92,9 +64,9 @@ class usuario extends controller {
     } else if ($detalhes == 'enderecos'){
       $this->_enderecos();
     } else if ($detalhes == 'getEnderecos'){
-      $this->_getEnderecos();
+      echo json_encode(["data" => $this->enderecos->selectByUsuario()]);
     } else if ($detalhes == 'getCarteira'){
-      $this->_getCarteira();
+      echo json_encode(["data" => $this->carteira->selectByUsuario()]);
     } else if ($detalhes == 'carteira'){
       $this->_carteira();
     } else if ($detalhes == 'senha'){
@@ -109,17 +81,68 @@ class usuario extends controller {
     $this->data['detalhes'] = $detalhes;
     if (empty($detalhes)){
       $this->_modulo();
-    } else if ($detalhes == 'menus'){
-      $this->_menus();
-    } else if ($detalhes == 'projeto'){
-      $this->_projeto();
     } else if ($detalhes == 'getModulos'){
-      $this->_getModulos();
+      echo json_encode(["data" => $this->modulos->selectAll()]);
     } else if ($detalhes == 'getMenus'){
-      $this->_getMenus();
+      echo json_encode(["data" => $this->menus->selectAll()]);
     } else if ($detalhes == 'getProjetos'){
-      $this->_getProjetos();
+      echo json_encode(["data" => $this->projetos->selectAll()]);
     }
+  }
+
+  public function menu($detalhes = '', $id = ''){
+    $this->data['view_perfil'] = 'menu';
+    $this->data['detalhes'] = $detalhes;
+    if (empty($detalhes)){
+      $this->_menus();
+    }
+  }
+
+  public function projeto($detalhes = '', $id = ''){
+    $this->data['view_perfil'] = 'projeto';
+    $this->data['detalhes'] = $detalhes;
+    if (empty($detalhes)){
+      $this->_projeto();
+    }
+  }
+
+  public function plano($detalhes = '', $id = ''){
+    $this->data['view_perfil'] = 'plano';
+    $this->data['detalhes'] = $detalhes;
+    if (empty($detalhes)){
+      $this->_plano();
+    }
+  }
+
+  private function _parceiro(){
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu_parceiro.php", 
+      "./pages/usuario/perfil/parceiro.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  }
+
+  private function _plano(){
+    //$this->planos->doGravarAjax();
+
+    $this->addJS('planos.js');
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu_plano.php", 
+      "./pages/usuario/plano/plano.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
+  
+  }
+
+  private function _site(){
+    $this->viewLogado([
+      "./pages/usuario/layout/header.php", 
+      "./pages/usuario/layout/menu_parceiro.php", 
+      "./pages/usuario/perfil/site.php", 
+      "./pages/usuario/layout/footer.php"
+    ]);
   }
 
   private function _menus(){
@@ -142,7 +165,7 @@ class usuario extends controller {
       $this->addJS('projetos.js');
       $this->viewLogado([
         "./pages/usuario/layout/header.php", 
-        "./pages/usuario/layout/menu_modulo.php", 
+        "./pages/usuario/layout/menu_projeto.php", 
         "./pages/usuario/modulo/projeto.php", 
         "./pages/usuario/layout/footer.php"
       ]);
@@ -169,29 +192,9 @@ class usuario extends controller {
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
       "./pages/usuario/layout/menu.php", 
-      "./pages/usuario/perfil.php", 
+      "./pages/usuario/perfil/perfil.php", 
       "./pages/usuario/layout/footer.php"
     ]);
-  }
-
-  private function _getProjetos(){
-    echo json_encode(["data" => $this->projetos->selectAll()]);
-  }
-
-  private function _getMenus(){
-    echo json_encode(["data" => $this->menus->selectAll()]);
-  }
-
-  private function _getModulos(){
-    echo json_encode(["data" => $this->modulos->selectAll()]);
-  }
-
-  private function _getCarteira(){
-    echo json_encode(["data" => $this->carteira->selectByUsuario()]);
-  }
-
-  private function _getEnderecos(){
-    echo json_encode(["data" => $this->enderecos->selectByUsuario()]);
   }
 
   private function _enderecos(){
@@ -202,7 +205,7 @@ class usuario extends controller {
       $this->viewLogado([
         "./pages/usuario/layout/header.php", 
         "./pages/usuario/layout/menu.php", 
-        "./pages/usuario/enderecos.php", 
+        "./pages/usuario/perfil/enderecos.php", 
         "./pages/usuario/layout/footer.php"
       ]);
     }
@@ -216,7 +219,7 @@ class usuario extends controller {
       $this->viewLogado([
         "./pages/usuario/layout/header.php", 
         "./pages/usuario/layout/menu.php", 
-        "./pages/usuario/carteira.php", 
+        "./pages/usuario/perfil/carteira.php", 
         "./pages/usuario/layout/footer.php"
       ]);
     }
@@ -230,7 +233,7 @@ class usuario extends controller {
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
       "./pages/usuario/layout/menu.php", 
-      "./pages/usuario/senha.php", 
+      "./pages/usuario/perfil/senha.php", 
       "./pages/usuario/layout/footer.php"
     ]);
   }
@@ -260,7 +263,7 @@ class usuario extends controller {
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
       "./pages/usuario/layout/menu.php", 
-      "./pages/usuario/empresa.php", 
+      "./pages/usuario/perfil/empresa.php", 
       "./pages/usuario/layout/footer.php"
     ]);
   }
