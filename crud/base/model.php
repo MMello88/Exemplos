@@ -10,6 +10,13 @@ abstract class model extends conectDB {
   public $sqlBaseUsuario = '';
   public $inputs = [];
 
+  protected $afterInsert = null;
+  protected $beforeInsert = null;
+  protected $afterUpdate = null;
+  protected $beforeUpdate = null;
+  protected $afterDelete = null;
+  protected $beforeDelete = null;
+
   function __construct() {
     parent::__construct();
     $this->data['titulo'] = '';
@@ -144,20 +151,19 @@ abstract class model extends conectDB {
    */
   abstract protected function validate();
 
-  protected $afterInsert = null;
-  protected $beforeInsert = null;
-  protected $afterUpdate = null;
-  protected $beforeUpdate = null;
-  protected $afterDelete = null;
-  protected $beforeDelete = null;
-
   public function doGravarAjax(){
     if($_POST){
       if ($this->validate()){
         if(empty($_POST['id'])){
-          $this->beforeInsert();
+
+          if (is_callable($this->beforeInsert))
+            $this->doCallBack($this->beforeInsert);
+
           $id = $this->inserir($_POST);
-          $this->afterInsert($id);
+
+          if (is_callable($this->afterInsert))
+            $this->doCallBack($this->afterInsert, $id);
+
           $_POST['id'] = $id;
           echo json_encode([
             'status' => 'true', 
@@ -167,9 +173,15 @@ abstract class model extends conectDB {
           ]);
         } else {
           if(isset($_POST['tabelaDel'])){
-            $this->beforeDelete();
+
+            if (is_callable($this->beforeDelete))
+              $this->doCallBack($this->beforeDelete);
+
             if ($this->deleteLogico()) {
-              $this->afterDelete($_POST['id']);
+
+              if (is_callable($this->afterDelete))
+                $this->doCallBack($this->afterDelete, $_POST['id']);
+
               echo json_encode([
                 'status' => 'true',
                 'title' => 'Pronto',
@@ -183,9 +195,15 @@ abstract class model extends conectDB {
               ]);
             }
           } else {
-            $this->beforeUpdate();
+
+            if (is_callable($this->beforeUpdate))
+              $this->doCallBack($this->beforeUpdate);
+
             if ($this->alterar($_POST)){
-              $this->afterUpdate($_POST['id']);
+
+              if (is_callable($this->afterUpdate))
+                $this->doCallBack($this->afterUpdate, $_POST['id']);
+
               echo json_encode([
                 'status' => 'true',
                 'title' => 'Pronto',
@@ -201,12 +219,17 @@ abstract class model extends conectDB {
             }
           }
         }
-        return true;
-      } else {
-        return false;
       }
+      return true;
     } else {
       return false;
     }
+  }
+
+  public function doCallBack($func, $param = ""){
+    if (empty($param))
+      return $func();
+    else
+      return $func($param);
   }
 }

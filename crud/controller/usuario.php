@@ -166,7 +166,7 @@ class usuario extends controller {
       $this->viewLogado([
         "./pages/usuario/layout/header.php", 
         "./pages/usuario/layout/menu_projeto.php", 
-        "./pages/usuario/modulo/projeto.php", 
+        "./pages/usuario/projeto/projeto.php", 
         "./pages/usuario/layout/footer.php"
       ]);
     }
