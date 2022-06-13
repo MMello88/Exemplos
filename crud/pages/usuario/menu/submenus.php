@@ -55,3 +55,6 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
+<script>
+  var id = <?= $id ?>;
+</script>

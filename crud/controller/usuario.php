@@ -92,8 +92,9 @@ class usuario extends controller {
     if (empty($detalhes)){
       $this->_menus();
     } else if ($detalhes == 'submenus'){
-      $this->_submenus();
+      $this->_submenus($id);
     } else if ($detalhes == 'getMenus'){
+      $id;
       echo json_encode(["data" => $this->menus->selectAll()]);
     } 
   }
@@ -161,7 +162,7 @@ class usuario extends controller {
     }
   }
 
-  private function _submenus(){
+  private function _submenus($id = ''){
     
     if (!$this->menus->doGravarAjax()){
       
