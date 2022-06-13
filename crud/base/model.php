@@ -226,7 +226,7 @@ abstract class model extends conectDB {
     }
   }
 
-  public function doCallBack($func, $param = ""){
+  private function doCallBack($func, $param = ""){
     if (empty($param))
       return $func();
     else

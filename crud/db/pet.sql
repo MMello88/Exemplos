@@ -120,9 +120,11 @@ CREATE TABLE `menus` (
   `link` varchar(255) NOT NULL,
   `ativo` enum('Sim','Não') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `menus` */
+
+insert  into `menus`(`id`,`nome`,`link`,`ativo`) values (1,'Dashboard1x','Dashboard/Painel','Não'),(2,'Dashboard','dashboard/Fiscal','Sim');
 
 /*Table structure for table `modulos` */
 
@@ -133,11 +135,30 @@ CREATE TABLE `modulos` (
   `nome` varchar(255) NOT NULL,
   `ativo` enum('Sim','Não') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `modulos` */
 
-insert  into `modulos`(`id`,`nome`,`ativo`) values (1,'Estoque','Sim'),(2,'Compras','Sim'),(3,'Agenda','Sim'),(4,'Exames','Sim');
+insert  into `modulos`(`id`,`nome`,`ativo`) values (1,'Fiscal','Sim'),(2,'Laboratório','Sim');
+
+/*Table structure for table `modulos_menus` */
+
+DROP TABLE IF EXISTS `modulos_menus`;
+
+CREATE TABLE `modulos_menus` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  `modulo_id` bigint(20) NOT NULL,
+  `menu_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_modulos_menus#modulos` (`modulo_id`),
+  KEY `FK_modulos_menus#menus#menu_id` (`menu_id`),
+  CONSTRAINT `FK_modulos_menus#menus#menu_id` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`),
+  CONSTRAINT `FK_modulos_menus#modulos` FOREIGN KEY (`modulo_id`) REFERENCES `modulos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `modulos_menus` */
 
 /*Table structure for table `pages` */
 
@@ -158,6 +179,75 @@ CREATE TABLE `pages` (
 
 insert  into `pages`(`id`,`tipo`,`param`,`value`,`valueImg`,`ativo`) values (1,'header','titulo','Bem vindo ao Pets',NULL,'Sim'),(2,'header','meta','pet; laboratório; petshop; ',NULL,'Sim');
 
+/*Table structure for table `plano` */
+
+DROP TABLE IF EXISTS `plano`;
+
+CREATE TABLE `plano` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `plano_tipo_id` bigint(11) NOT NULL,
+  `projeto_id` bigint(11) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_plano#projetos#projeto_id` (`projeto_id`),
+  KEY `FK_plano#plano_tipos#plano_tipo_id` (`plano_tipo_id`),
+  CONSTRAINT `FK_plano#plano_tipos#plano_tipo_id` FOREIGN KEY (`plano_tipo_id`) REFERENCES `plano_tipos` (`id`),
+  CONSTRAINT `FK_plano#projetos#projeto_id` FOREIGN KEY (`projeto_id`) REFERENCES `projetos` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `plano` */
+
+/*Table structure for table `plano_detalhes` */
+
+DROP TABLE IF EXISTS `plano_detalhes`;
+
+CREATE TABLE `plano_detalhes` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  `plano_id` bigint(20) NOT NULL,
+  `modulo_id` bigint(20) NOT NULL,
+  `order` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_detalhes#planos#plano_id` (`plano_id`),
+  KEY `FK_detalhes#modulos` (`modulo_id`),
+  CONSTRAINT `FK_detalhes#modulos` FOREIGN KEY (`modulo_id`) REFERENCES `modulos` (`id`),
+  CONSTRAINT `FK_detalhes#planos#plano_id` FOREIGN KEY (`plano_id`) REFERENCES `plano` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `plano_detalhes` */
+
+/*Table structure for table `plano_precos` */
+
+DROP TABLE IF EXISTS `plano_precos`;
+
+CREATE TABLE `plano_precos` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  `plano_id` bigint(20) NOT NULL,
+  `preco` decimal(7,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_precos#planos#plano_id` (`plano_id`),
+  CONSTRAINT `FK_precos#planos#plano_id` FOREIGN KEY (`plano_id`) REFERENCES `plano` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `plano_precos` */
+
+/*Table structure for table `plano_tipos` */
+
+DROP TABLE IF EXISTS `plano_tipos`;
+
+CREATE TABLE `plano_tipos` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `plano_tipos` */
+
 /*Table structure for table `projetos` */
 
 DROP TABLE IF EXISTS `projetos`;
@@ -167,11 +257,27 @@ CREATE TABLE `projetos` (
   `nome` varchar(255) NOT NULL,
   `ativo` enum('Sim','Não') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `projetos` */
 
-insert  into `projetos`(`id`,`nome`,`ativo`) values (1,'teste1','Sim'),(2,'Matheus de Mello','Sim');
+insert  into `projetos`(`id`,`nome`,`ativo`) values (1,'Projeto Fiscal','Sim');
+
+/*Table structure for table `submenus` */
+
+DROP TABLE IF EXISTS `submenus`;
+
+CREATE TABLE `submenus` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `ativo` enum('Sim','Não') NOT NULL,
+  `menu_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_submenus#menus#menu_id` (`menu_id`),
+  CONSTRAINT `FK_submenus#menus#menu_id` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `submenus` */
 
 /*Table structure for table `usuario` */
 
@@ -192,11 +298,11 @@ CREATE TABLE `usuario` (
   UNIQUE KEY `uk_email` (`email`),
   KEY `users_empresa_id_foreign` (`empresa_id`),
   CONSTRAINT `users_empresa_id_foreign` FOREIGN KEY (`empresa_id`) REFERENCES `empresas` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `usuario` */
 
-insert  into `usuario`(`id`,`nome`,`email`,`senha`,`tipo`,`avatar`,`cpf_cnpj`,`ativo`,`telefone`,`empresa_id`) values (1,'Matheus de Mello','matheusnarciso@hotmail.com','e10adc3949ba59abbe56e057f20f883e','Administrador',NULL,'36848874809','Sim','16991838523',21);
+insert  into `usuario`(`id`,`nome`,`email`,`senha`,`tipo`,`avatar`,`cpf_cnpj`,`ativo`,`telefone`,`empresa_id`) values (1,'Matheus de Mello','matheusnarciso@hotmail.com','e10adc3949ba59abbe56e057f20f883e','Administrador',NULL,'36848874809','Sim','16991838523',21),(2,'','','','Administrador',NULL,NULL,'Sim',NULL,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

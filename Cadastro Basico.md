@@ -1,5 +1,7 @@
 # HTML PAGES
 
+>diretório ./pages/[controller]/[method]/index.php
+
 ```html
                   <!-- grid column -->
                   <div class="col-lg-8">
@@ -51,6 +53,8 @@
 
 # PHP Model
 
+>diretório ./model/data[Tabela].php
+
 ```php
 <?php
 require_once("./base/model.php");
@@ -76,6 +80,15 @@ class data[Tabela] extends model {
      * A função ordernar caso tenho configurado sua ordenação
      */
     $this->ordernar();
+
+    $this->afterInsert = function() {};
+    $this->beforeInsert = function($id) {};
+
+    $this->afterUpdate = function($id) {};
+    $this->beforeUpdate = function() {};
+
+    $this->afterDelete = function($id) {};
+    $this->beforeDelete = function() {};
   }
 
   private function validate($_arr){
@@ -98,63 +111,12 @@ class data[Tabela] extends model {
     echo json_encode($arrMessage);
     return false;
   }
-
-  public function doGravarAjax(){
-    if($_POST){
-      if ($this->validate()){
-        if(empty($_POST['id'])){
-          $id = $this->inserir($_POST);
-          $_POST['id'] = $id;
-          echo json_encode([
-            'status' => 'true', 
-            'title' => 'Pronto',
-            'message' => 'Cadastro realizado com sucesso!',
-            'data' => $_POST
-          ]);
-        } else {
-          if(isset($_POST['tabelaDel'])){
-            if ($this->deleteLogico()) {
-              echo json_encode([
-                'status' => 'true',
-                'title' => 'Pronto',
-                'message' => 'Delete realizado com sucesso!',
-              ]);
-            } else {
-              echo json_encode([
-                'status' => 'false',
-                'title' => 'Falha',
-                'message' => 'Falha ao realizar o delete. Tente novamente em instantes.',
-              ]);
-            }
-          } else {
-            if($this->alterar($_POST)){
-              echo json_encode([
-                'status' => 'true',
-                'title' => 'Pronto',
-                'message' => 'Dados alterado com sucesso!',
-                'data' => $_POST
-              ]);
-            } else {
-              echo json_encode([
-                'status' => 'false',
-                'title' => 'Falha',
-                'message' => 'Falha ao realizar a alteração. Tente novamente em instantes.',
-              ]);
-            }
-          }
-        }
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
 }
 ```
 
 # PHP Controller
+
+>diretório ./controller/[controller].php
 
 ```php
 <?php 
@@ -183,7 +145,7 @@ class [controller] extends controller {
     /**
      * JS se necessário
      */
-    $this->addJS('[controller].js');
+    $this->addJS('[js_name].js');
     /**
      * viewLogado contem o layout para paginas logados
      * o parametro pode ser array, quando requerer incluir outro layout
@@ -204,4 +166,80 @@ class [controller] extends controller {
       $this->viewLogado("./pages/[controller]/index.php");
     }
   }
+```
+
+# Javascript
+
+>diretório ./public/assets/javascript/view/[js_name].js
+
+```javascript
+var table
+const load = (e) => {
+  table = $('#datatable').DataTable( {
+    ajax: base_url + '/controller/method/param1/param2',//retornar json
+    responsive: true,
+    dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
+      <'table-responsive'tr>
+      <'row align-items-center'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 d-flex justify-content-end'p>>`,
+    language: {
+      paginate: {
+        previous: '<i class="fa fa-lg fa-angle-left"></i>',
+        next: '<i class="fa fa-lg fa-angle-right"></i>'
+      }
+    },
+    columns: [
+      { data: 'nome' },
+      { data: 'id', className: 'align-middle text-right', orderable: false, searchable: false }
+    ],
+    columnDefs: [{
+      targets: 1,
+      render: function (data, type, row, meta) {
+        let dataRow = JSON.stringify(row);
+        return `
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalForm"><i class="fa fa-pencil-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="[tabela]" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
+        `
+      }
+    }]
+  } );
+
+
+  $('#modalForm').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) 
+    var row = button.data('row')
+    if (row !== undefined){
+      document.getElementById('id').value = row.id
+      document.getElementById('nome').value = row.nome
+      document.getElementById('ativo').value = row.ativo
+    }
+    //console.log(row);
+  })
+
+  
+  $('#modalForm').on('hidden.bs.modal', function (event) {  
+    document.getElementById('formAdd').reset();   
+    document.getElementById('id').value = '';
+    document.getElementById('ativo').value = 'Sim';
+  })
+}
+
+
+const submitForm = (e) => {
+  if (e !== undefined)
+    e.preventDefault();
+
+  var myForm = document.getElementById('formAdd');
+  enviarViaAjax(myForm, "modalForm", "datatable")
+}
+
+/**
+ *  Submit
+ */
+  document.getElementById('formAdd').addEventListener('submit', submitForm);
+
+  /**
+  *  Carregar
+  */
+  window.addEventListener('load', load);
+
 ```
