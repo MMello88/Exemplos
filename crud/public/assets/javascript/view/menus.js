@@ -1,7 +1,7 @@
 var table
 const load = (e) => {
   table = $('#datatable').DataTable( {
-    ajax: base_url + '/usuario/modulo/getMenus',
+    ajax: base_url + '/usuario/menu/getMenus',
     responsive: true,
     dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
       <'table-responsive'tr>

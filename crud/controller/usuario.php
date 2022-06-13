@@ -83,11 +83,7 @@ class usuario extends controller {
       $this->_modulo();
     } else if ($detalhes == 'getModulos'){
       echo json_encode(["data" => $this->modulos->selectAll()]);
-    } else if ($detalhes == 'getMenus'){
-      echo json_encode(["data" => $this->menus->selectAll()]);
-    } else if ($detalhes == 'getProjetos'){
-      echo json_encode(["data" => $this->projetos->selectAll()]);
-    }
+    } 
   }
 
   public function menu($detalhes = '', $id = ''){
@@ -95,7 +91,11 @@ class usuario extends controller {
     $this->data['detalhes'] = $detalhes;
     if (empty($detalhes)){
       $this->_menus();
-    }
+    } else if ($detalhes == 'submenus'){
+      $this->_submenus();
+    } else if ($detalhes == 'getMenus'){
+      echo json_encode(["data" => $this->menus->selectAll()]);
+    } 
   }
 
   public function projeto($detalhes = '', $id = ''){
@@ -103,6 +103,8 @@ class usuario extends controller {
     $this->data['detalhes'] = $detalhes;
     if (empty($detalhes)){
       $this->_projeto();
+    } else if ($detalhes == 'getProjetos'){
+      echo json_encode(["data" => $this->projetos->selectAll()]);
     }
   }
 
@@ -148,12 +150,26 @@ class usuario extends controller {
   private function _menus(){
     
     if (!$this->menus->doGravarAjax()){
+      
       $this->addJS('menus.js');
-
       $this->viewLogado([
         "./pages/usuario/layout/header.php", 
-        "./pages/usuario/layout/menu_modulo.php", 
-        "./pages/usuario/modulo/menus.php", 
+        "./pages/usuario/layout/menu_menu.php", 
+        "./pages/usuario/menu/menus.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
+  }
+
+  private function _submenus(){
+    
+    if (!$this->menus->doGravarAjax()){
+      
+      $this->addJS('menus.js');
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu_menu.php", 
+        "./pages/usuario/menu/submenus.php", 
         "./pages/usuario/layout/footer.php"
       ]);
     }
