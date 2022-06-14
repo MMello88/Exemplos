@@ -12,7 +12,6 @@
                       <h6 class="card-header"> Detalhes </h6><!-- .nav -->
                       <nav class="nav nav-tabs flex-column border-0">
                         <a href="<?= BASE_URL ?>/usuario/menu" class="nav-link <?=  empty($detalhes) ? "active": "" ?>">Menu</a> 
-                        <a href="<?= BASE_URL ?>/usuario/menu/submenus" class="nav-link <?=   $detalhes == "submenus" ? "active": "" ?>">Submenus</a>
                       </nav><!-- /.nav -->
                     </div><!-- /.card -->
                   </div><!-- /grid column -->

@@ -166,10 +166,9 @@ class usuario extends controller {
     
     if (!$this->menus->doGravarAjax()){
       
-      $this->addJS('menus.js');
+      $this->addJS('submenus.js');
       $this->viewLogado([
         "./pages/usuario/layout/header.php", 
-        "./pages/usuario/layout/menu_menu.php", 
         "./pages/usuario/menu/submenus.php", 
         "./pages/usuario/layout/footer.php"
       ]);

@@ -1,7 +1,7 @@
 var table
 const load = (e) => {
   table = $('#datatable').DataTable( {
-    ajax: base_url + '/usuario/menu/getMenus',
+    ajax: base_url + '/usuario/menu/getSubMenus/'+id,
     responsive: true,
     dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
       <'table-responsive'tr>
@@ -26,7 +26,6 @@ const load = (e) => {
         return `
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalForm"><i class="fa fa-pencil-alt"></i></a>
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="menus" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
-        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' href="${base_url}/usuario/menu/submenus/${row.id}"><i class="fab fa-elementor"></i></a>
         `
       }
     }]

@@ -1,5 +1,22 @@
+            <!-- .page-inner -->
+            <div class="page-inner">
+              <!-- .page-section -->
+              <div class="page-section">
+                <?= getflashdata() ?>
+                <!-- grid row -->
+                <div class="row">
+                  <header class="page-title-bar">
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">
+                          <a href="<?= BASE_URL ?>/usuario/menu"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Voltar ao Menu</a>
+                        </li>
+                      </ol>
+                    </nav>
+                    <h1 class="page-title"> Submenus </h1>
+                  </header>
                   <!-- grid column -->
-                  <div class="col-lg-8">
+                  <div class="col-lg-12">
 
                     <!-- .page-section -->
                     <div class="page-section">
