@@ -1,5 +1,6 @@
 <?php 
 require_once("./base/controller.php");
+require_once("./controller/page404.php");
 
 class usuario extends controller {
 
@@ -9,6 +10,7 @@ class usuario extends controller {
   public $carteira;
   public $modulos;
   public $menus;
+  public $submenus;
   public $projeto;
 
   function __construct() {
@@ -91,12 +93,15 @@ class usuario extends controller {
     $this->data['detalhes'] = $detalhes;
     if (empty($detalhes)){
       $this->_menus();
+    } else if ($detalhes == 'getMenus'){
+      echo json_encode(["data" => $this->menus->selectAll()]);
+      
     } else if ($detalhes == 'submenus'){
       $this->_submenus($id);
-    } else if ($detalhes == 'getMenus'){
-      $id;
-      echo json_encode(["data" => $this->menus->selectAll()]);
-    } 
+    } else if ($detalhes == 'getSubmenus'){
+      $this->submenus = getModel('dataSubmenus', $id);
+      echo json_encode(["data" => $this->submenus->selectWhere(['id_menu' => $id])]);
+    }
   }
 
   public function projeto($detalhes = '', $id = ''){
@@ -162,16 +167,22 @@ class usuario extends controller {
     }
   }
 
-  private function _submenus($id = ''){
-    
-    if (!$this->menus->doGravarAjax()){
-      
-      $this->addJS('submenus.js');
-      $this->viewLogado([
-        "./pages/usuario/layout/header.php", 
-        "./pages/usuario/menu/submenus.php", 
-        "./pages/usuario/layout/footer.php"
-      ]);
+  private function _submenus($id){
+    $this->submenus = getModel('dataSubmenus', $id);
+    $data = $this->menus->selectWhere(['id' => $id]);
+    if (count($data) > 0){
+      if (!$this->submenus->doGravarAjax()){
+        
+        $this->addJS('submenus.js');
+        $this->viewLogado([
+          "./pages/usuario/layout/header.php", 
+          "./pages/usuario/menu/submenus.php", 
+          "./pages/usuario/layout/footer.php"
+        ]);
+      }
+    } else {
+      $page404 = new page404();
+      $page404->index();
     }
   }
 

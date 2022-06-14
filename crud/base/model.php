@@ -136,12 +136,11 @@ abstract class model extends conectDB {
   }
 
   public function selectWhere($where = []){
-    $sql = $this->sqlBase . " WHERE ";
+    $sql = $this->sqlBase ;
     foreach ($where as $key => $value) {
-      $sql .= " {$key} = :{$key} and";
+      $sql .= " and {$key} = :{$key} ";
     }
-    $sql = rtrim($sql, "and");
-    
+    //$sql = rtrim($sql, "and");
     return $this->select($sql, $where);
   }
 

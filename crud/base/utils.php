@@ -1,8 +1,11 @@
 <?php
 
-function getModel($model){
+function getModel($model, $param = ''){
   require_once("./model/{$model}.php");
-  return new $model();
+  if (empty($param))
+    return new $model();
+  else 
+    return new $model($param);
 }  
 
 function redirect($page){
