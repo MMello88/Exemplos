@@ -9,11 +9,11 @@
                     <nav aria-label="breadcrumb">
                       <ol class="breadcrumb">
                         <li class="breadcrumb-item active">
-                          <a href="<?= BASE_URL ?>/usuario/menu"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Voltar ao Menu</a>
+                          <a href="<?= BASE_URL ?>/usuario/modulo"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Voltar ao Modulo</a>
                         </li>
                       </ol>
                     </nav>
-                    <h1 class="page-title"> Submenus </h1>
+                    <h1 class="page-title"> Menus do Modulo </h1>
                   </header>
                   <!-- grid column -->
                   <div class="col-lg-12">
@@ -31,8 +31,8 @@
                           <table id="datatable" class="table dt-responsive nowrap w-100">
                             <thead>
                               <tr>
-                                <th> Submenu </th>
-                                <th> Link </th>
+                                <th> Nome </th>
+                                <th> Menu </th>
                                 <th style="width:100px; min-width:100px;">&nbsp;</th>
                               </tr>
                             </thead>
@@ -58,7 +58,7 @@
       <!-- /.modal-header -->
       <!-- .modal-body -->
       <div class="modal-body">
-        <?= formCard($this->submenus->inputs, '', 'Salvar') ?>
+        <?= formCard($this->modulosmenus->inputs, '', 'Salvar') ?>
       </div>
       <!-- /.modal-body -->
       <!-- .modal-footer -->

@@ -19,11 +19,11 @@ const load = (e) => {
     columnDefs: [{
       targets: 1,
       render: function (data, type, row, meta) {
-        //console.log(data, type, row, meta);
         let dataRow = JSON.stringify(row);
         return `
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalForm"><i class="fa fa-pencil-alt"></i></a>
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="modulos" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' href="${base_url}/usuario/modulo/menus/${row.id}" role="button" data-toggle="tooltip" data-placement="top" title="Menus do modulo"><i class="fab fa-elementor"></i></a>
         `
       }
     }]

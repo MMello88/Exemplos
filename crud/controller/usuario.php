@@ -80,13 +80,51 @@ class usuario extends controller {
   }
 
   public function modulo($detalhes = '', $id = ''){
+    $this->data['id'] = $id;
     $this->data['view_perfil'] = 'modulo';
     $this->data['detalhes'] = $detalhes;
     if (empty($detalhes)){
       $this->_modulo();
     } else if ($detalhes == 'getModulos'){
       echo json_encode(["data" => $this->modulos->selectAll()]);
-    } 
+    } else if ($detalhes == 'menus'){
+      $this->_moduloMenus($id);
+    } else if ($detalhes == 'getMenus'){
+      $this->modulosmenus = getModel('dataModulosMenus', $id);
+      echo json_encode(["data" => $this->modulosmenus->selectWhere(['modulo_id' => $id])]);
+    }
+  }
+
+  private function _moduloMenus($id){
+    $this->modulosmenus = getModel('dataModulosMenus', $id);
+    $data = $this->modulos->selectWhere(['id' => $id]);
+    if (count($data) > 0){
+      if (!$this->modulosmenus->doGravarAjax()){
+        
+        $this->addJS('modulosmenus.js');
+        $this->viewLogado([
+          "./pages/usuario/layout/header.php", 
+          "./pages/usuario/modulo/menus.php", 
+          "./pages/usuario/layout/footer.php"
+        ]);
+      }
+    } else {
+      $page404 = new page404();
+      $page404->index();
+    }
+  }
+
+  private function _modulo(){
+    if (!$this->modulos->doGravarAjax()){
+      
+      $this->addJS('modulos.js');
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu_modulo.php", 
+        "./pages/usuario/modulo/modulo.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
   }
 
   public function menu($detalhes = '', $id = ''){
@@ -97,7 +135,6 @@ class usuario extends controller {
       $this->_menus();
     } else if ($detalhes == 'getMenus'){
       echo json_encode(["data" => $this->menus->selectAll()]);
-      
     } else if ($detalhes == 'submenus'){
       $this->_submenus($id);
     } else if ($detalhes == 'getSubmenus'){
@@ -196,19 +233,6 @@ class usuario extends controller {
         "./pages/usuario/layout/header.php", 
         "./pages/usuario/layout/menu_projeto.php", 
         "./pages/usuario/projeto/projeto.php", 
-        "./pages/usuario/layout/footer.php"
-      ]);
-    }
-  }
-
-  private function _modulo(){
-    if (!$this->modulos->doGravarAjax()){
-      
-      $this->addJS('modulos.js');
-      $this->viewLogado([
-        "./pages/usuario/layout/header.php", 
-        "./pages/usuario/layout/menu_modulo.php", 
-        "./pages/usuario/modulo/modulo.php", 
         "./pages/usuario/layout/footer.php"
       ]);
     }

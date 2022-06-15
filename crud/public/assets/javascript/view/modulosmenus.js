@@ -1,7 +1,7 @@
 var table
 const load = (e) => {
   table = $('#datatable').DataTable( {
-    ajax: base_url + '/usuario/menu/getSubmenus/'+id,
+    ajax: base_url + '/usuario/modulo/getMenus/'+id,
     responsive: true,
     dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
       <'table-responsive'tr>
@@ -14,7 +14,7 @@ const load = (e) => {
     },
     columns: [
       { data: 'nome' },
-      { data: 'link' },
+      { data: 'menu_id' },
       { data: 'id', className: 'align-middle text-right', orderable: false, searchable: false }
     ],
     columnDefs: [{
@@ -24,7 +24,7 @@ const load = (e) => {
         console.log(dataRow);
         return `
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalForm"><i class="fa fa-pencil-alt"></i></a>
-        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="submenus" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="modulos_menus" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
         `
       }
     }]
