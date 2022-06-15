@@ -14,6 +14,7 @@ class usuario extends controller {
   public $projeto;
 
   function __construct() {
+    if (!isset($_SESSION['usuario'])) redirect("/login");
     parent::__construct();
     $this->usuario = getModel('dataUsuario');
     $this->empresa = getModel('dataEmpresas');
@@ -89,6 +90,7 @@ class usuario extends controller {
   }
 
   public function menu($detalhes = '', $id = ''){
+    $this->data['id'] = $id;
     $this->data['view_perfil'] = 'menu';
     $this->data['detalhes'] = $detalhes;
     if (empty($detalhes)){
@@ -100,7 +102,7 @@ class usuario extends controller {
       $this->_submenus($id);
     } else if ($detalhes == 'getSubmenus'){
       $this->submenus = getModel('dataSubmenus', $id);
-      echo json_encode(["data" => $this->submenus->selectWhere(['id_menu' => $id])]);
+      echo json_encode(["data" => $this->submenus->selectWhere(['menu_id' => $id])]);
     }
   }
 

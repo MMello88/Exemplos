@@ -38,7 +38,7 @@ class conectDB {
     
     if ($sth->execute($param))
       return $sth->fetchAll(PDO::FETCH_CLASS);
-    return null;
+    return [];
   }
 
   public function query($sql){

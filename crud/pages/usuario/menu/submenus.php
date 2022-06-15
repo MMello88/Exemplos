@@ -53,12 +53,12 @@
     <div class="modal-content">
       <!-- .modal-header -->
       <div class="modal-header">
-        <h5 id="modalFormLabel" class="modal-title">Menus</h5>
+        <h5 id="modalFormLabel" class="modal-title">Submenus</h5>
       </div>
       <!-- /.modal-header -->
       <!-- .modal-body -->
       <div class="modal-body">
-        <?= formCard($this->menus->inputs, '', 'Salvar') ?>
+        <?= formCard($this->submenus->inputs, '', 'Salvar') ?>
       </div>
       <!-- /.modal-body -->
       <!-- .modal-footer -->
