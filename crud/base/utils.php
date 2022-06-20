@@ -47,7 +47,7 @@ function input($label, $name, $id, $value, $type, $select = [], $col = '12', $or
   $required = $required ? "required" : "";
   $disabled = $disabled ? "disabled" : "";
 
-  if (count($select) > 0){
+  if ($select !== null){
     $html = "
         <div class='col-md-{$col} mb-3'>
           <label for='{$id}' style='display:{$display}'>{$label}</label>
