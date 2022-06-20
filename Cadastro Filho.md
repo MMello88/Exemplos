@@ -217,7 +217,7 @@ class [controller] extends controller {
       $this->_moduloMenus($[param2]);
     } else if ($[param1] == 'getJsonFilho'){
       $[model] = getModel('data[Tabela]', $[param2]);
-      echo json_encode(["data" => $[model]->selectWhere(['pai_id' => $[param2]])]);
+      echo json_encode(["data" => $[model]->selectWhere(['pai_id' => $[param2]])]); // melhorar esta consulta para ter os joins
     }
   }
 

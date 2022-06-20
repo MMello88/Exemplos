@@ -250,5 +250,4 @@ const submitForm = (e) => {
   *  Carregar
   */
   window.addEventListener('load', load);
-
 ```

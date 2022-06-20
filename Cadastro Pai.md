@@ -275,5 +275,4 @@ document.getElementById('formAdd').addEventListener('submit', submitForm);
  *  Carregar
  */
 window.addEventListener('load', load);
-
 ```

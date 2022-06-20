@@ -1,7 +1,7 @@
 var table
 const load = (e) => {
   table = $('#datatable').DataTable( {
-    ajax: base_url + '/usuario/modulo/getMenus/'+id,
+    ajax: base_url + '/usuario/plano/getPlanoTipos',//retornar json
     responsive: true,
     dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
       <'table-responsive'tr>
@@ -14,17 +14,15 @@ const load = (e) => {
     },
     columns: [
       { data: 'nome' },
-      { data: 'menu' },
       { data: 'id', className: 'align-middle text-right', orderable: false, searchable: false }
     ],
     columnDefs: [{
-      targets: 2,
+      targets: 1,
       render: function (data, type, row, meta) {
         let dataRow = JSON.stringify(row);
-        console.log(dataRow);
         return `
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalForm"><i class="fa fa-pencil-alt"></i></a>
-        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="modulos_menus" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="plano_tipos" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
         `
       }
     }]
@@ -37,8 +35,6 @@ const load = (e) => {
     if (row !== undefined){
       document.getElementById('id').value = row.id
       document.getElementById('nome').value = row.nome
-      document.getElementById('menu_id').value = row.menu_id
-      document.getElementById('modulo_id').value = row.modulo_id
       document.getElementById('ativo').value = row.ativo
     }
     //console.log(row);
@@ -49,8 +45,6 @@ const load = (e) => {
     document.getElementById('formAdd').reset();   
     document.getElementById('id').value = '';
     document.getElementById('ativo').value = 'Sim';
-    document.getElementById('menu_id').value = '';
-      document.getElementById('modulo_id').value = '';
   })
 }
 
@@ -72,4 +66,3 @@ const submitForm = (e) => {
   *  Carregar
   */
   window.addEventListener('load', load);
-

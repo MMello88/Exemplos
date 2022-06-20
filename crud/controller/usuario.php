@@ -23,6 +23,8 @@ class usuario extends controller {
     $this->modulos = getModel('dataModulos');
     $this->menus = getModel('dataMenus');
     $this->projetos = getModel('dataProjetos');
+    $this->planotipos = getModel('dataPlanoTipos');
+    $this->plano = getModel('dataPlano');
     $this->data['titulo'] = "Usuário";
   }
 
@@ -153,14 +155,6 @@ class usuario extends controller {
     }
   }
 
-  public function plano($detalhes = '', $id = ''){
-    $this->data['view_perfil'] = 'plano';
-    $this->data['detalhes'] = $detalhes;
-    if (empty($detalhes)){
-      $this->_plano();
-    }
-  }
-
   private function _parceiro(){
     $this->viewLogado([
       "./pages/usuario/layout/header.php", 
@@ -170,18 +164,7 @@ class usuario extends controller {
     ]);
   }
 
-  private function _plano(){
-    //$this->planos->doGravarAjax();
 
-    $this->addJS('planos.js');
-    $this->viewLogado([
-      "./pages/usuario/layout/header.php", 
-      "./pages/usuario/layout/menu_plano.php", 
-      "./pages/usuario/plano/plano.php", 
-      "./pages/usuario/layout/footer.php"
-    ]);
-  
-  }
 
   private function _site(){
     $this->viewLogado([
@@ -319,5 +302,89 @@ class usuario extends controller {
       "./pages/usuario/perfil/empresa.php", 
       "./pages/usuario/layout/footer.php"
     ]);
+  }
+
+
+
+
+
+
+
+  public function modulox($detalhes = '', $id = ''){
+    $this->data['id'] = $id;
+    $this->data['view_perfil'] = 'modulo';
+    $this->data['detalhes'] = $detalhes;
+    if (empty($detalhes)){
+      $this->_modulo();
+    } else if ($detalhes == 'getModulos'){
+      echo json_encode(["data" => $this->modulos->selectAll()]);
+    } else if ($detalhes == 'menus'){
+      $this->_moduloMenus($id);
+    } else if ($detalhes == 'getMenus'){
+      $this->modulosmenus = getModel('dataModulosMenus', $id);
+      echo json_encode(["data" => $this->modulosmenus->selectWhere(['modulo_id' => $id])]);
+    }
+  }
+
+  public function plano($detalhes = '', $id = ''){
+    $this->data['view_perfil'] = 'plano';
+    $this->data['detalhes'] = $detalhes;
+    if (empty($detalhes)){
+      $this->_plano();
+    } else if ($detalhes == 'tipos'){
+      $this->_tipos();
+    } else if ($detalhes == 'precos'){
+      $this->_tipos();
+    } else if ($detalhes == 'detalhes'){
+      $this->_tipos();
+    } else if ($detalhes == 'getPlanoTipos'){
+      echo json_encode(["data" => $this->planotipos->selectAll()]);
+    } 
+  }
+
+  private function _tipos(){
+    if (!$this->planotipos->doGravarAjax()){
+      
+      $this->addJS('planotipos.js');
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu_plano.php", 
+        "./pages/usuario/plano/tipo.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
+  }
+
+  private function _preco($id){
+    $this->modulosmenus = getModel('dataModulosMenus', $id);
+    $data = $this->modulos->selectWhere(['id' => $id]);
+    if (count($data) > 0){
+      if (!$this->modulosmenus->doGravarAjax()){
+        
+        $this->addJS('modulosmenus.js');
+        $this->viewLogado([
+          "./pages/usuario/layout/header.php", 
+          "./pages/usuario/modulo/menus.php", 
+          "./pages/usuario/layout/footer.php"
+        ]);
+      }
+    } else {
+      $page404 = new page404();
+      $page404->index();
+    }
+  }
+
+
+  private function _plano(){
+    if (!$this->plano->doGravarAjax()){
+      
+      $this->addJS('plano.js');
+      $this->viewLogado([
+        "./pages/usuario/layout/header.php", 
+        "./pages/usuario/layout/menu_plano.php", 
+        "./pages/usuario/plano/plano.php", 
+        "./pages/usuario/layout/footer.php"
+      ]);
+    }
   }
 }
