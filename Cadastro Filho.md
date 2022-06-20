@@ -5,11 +5,30 @@
 ```html
 <?php
   $colunas = ['Modulo'];
-  $titulo = "Modulos";
-  $inputs = $this->modulos->inputs;
+  $titulo = "Modulo de Menus";
+  $titulo_pai = "Modulos"
+  $inputs = $this->modulosmenus->inputs;
 ?>
+            <!-- .page-inner -->
+            <div class="page-inner">
+              <!-- .page-section -->
+              <div class="page-section">
+                <?= getflashdata() ?>
+                <!-- grid row -->
+                <div class="row">
+                  <header class="page-title-bar">
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">
+                          <a href="<?= BASE_URL ?>/[controller_pai]/[modulo]"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Voltar ao <?= $titulo_pai ?></a>
+                        </li>
+                      </ol>
+                    </nav>
+                    <h1 class="page-title"> <?= $titulo ?> </h1>
+                  </header>
                   <!-- grid column -->
-                  <div class="col-lg-8">
+                  <div class="col-lg-12">
+
                     <!-- .page-section -->
                     <div class="page-section">
                       <!-- .card -->
@@ -31,33 +50,45 @@
                                 <th style="width:100px; min-width:100px;">&nbsp;</th>
                               </tr>
                             </thead>
+                            
                           </table><!-- /.table -->
                         </div><!-- /.card-body -->
                       </div><!-- /.card -->
                     </div><!-- /.page-section -->
+                   
                   </div><!-- /grid column -->
 
-                  <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel" aria-hidden="true">
-                    <!-- .modal-dialog -->
-                    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                      <!-- .modal-content -->
-                      <div class="modal-content">
-                        <!-- .modal-header -->
-                        <div class="modal-header">
-                          <h5 id="modalFormLabel" class="modal-title"> <?= $titulo ?> </h5>
-                        </div><!-- /.modal-header -->
-                        <!-- .modal-body -->
-                        <div class="modal-body">
-                          <?= formCard($inputs, '', 'Salvar') ?>
-                        </div><!-- /.modal-body -->
-                        <!-- .modal-footer -->
-                        <div class="modal-footer">
-                          <button type='submit' form="formAdd" value='perfil' class='btn btn-primary ml-auto'>Salvar</button>
-                          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
-                        </div><!-- /.modal-footer -->
-                      </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                  </div>
+
+
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel" aria-hidden="true">
+  <!-- .modal-dialog -->
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <!-- .modal-content -->
+    <div class="modal-content">
+      <!-- .modal-header -->
+      <div class="modal-header">
+        <h5 id="modalFormLabel" class="modal-title"><?= $titulo ?></h5>
+      </div>
+      <!-- /.modal-header -->
+      <!-- .modal-body -->
+      <div class="modal-body">
+        <?= formCard($inputs, '', 'Salvar') ?>
+      </div>
+      <!-- /.modal-body -->
+      <!-- .modal-footer -->
+      <div class="modal-footer">
+        <button type='submit' form="formAdd" value='perfil' class='btn btn-primary ml-auto'>Salvar</button>
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+      <!-- /.modal-footer -->
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<script>
+  var id = <?= $id ?>;
+</script>
 ```
 
 # PHP Model
@@ -70,7 +101,7 @@ require_once("./base/model.php");
 
 class data[Tabela] extends model {
 
-  function  __construct() {
+  function  __construct($id = '') {
     $this->table = '[Tabela]';
     $this->pk = "id";
     parent::__construct();
@@ -78,12 +109,19 @@ class data[Tabela] extends model {
     $this->inputs['id']['label'] = 'Identificador';
     $this->inputs['id']['order'] = 0;
 
-    $this->inputs['nome']['label'] = "[nome]";
+    $this->inputs['nome']['label'] = "Nome";
     $this->inputs['nome']['order'] = 1;
     $this->inputs['nome']['required'] = true;
     
     $this->inputs['ativo']['order'] = 2;
     $this->inputs['ativo']['value'] = 'Sim';
+
+    $this->inputs['pai_id']['label'] = "Modulo";
+    $this->inputs['pai_id']['value'] = $id;
+    $this->inputs['pai_id']['order'] = 4;
+    $this->inputs['pai_id']['type'] = 'hidden';
+    $this->inputs['pai_id']['col'] = '6';
+    $this->inputs['pai_id']['required'] = true;
 
     /**
      * A função ordernar caso tenho configurado sua ordenação
@@ -100,7 +138,7 @@ class data[Tabela] extends model {
     $this->beforeDelete = function() {};
   }
 
-  private function validate(){
+  protected function validate(){
     $arrMessage = [];
     if((!isset($_POST['[campo]'])) or (empty($_POST['[campo]']))) {
       $arrMessage = [
@@ -130,6 +168,7 @@ class data[Tabela] extends model {
 ```php
 <?php 
 require_once("./base/controller.php");
+require_once("./controller/page404.php");
 
 class [controller] extends controller {
 
@@ -168,16 +207,48 @@ class [controller] extends controller {
   }
 
   public function [method]($[param1] = '', $[param2] = ''){
+    $this->data['id'] = $id;
+    
+    if (empty($[param1])) {
+      $this->_pai();
+    } else if ($[param1] == 'getJson') {
+      echo json_encode(["data" => $this->[model]->selectAll()]);
+    } else if ($[param1] == 'filho'){
+      $this->_moduloMenus($[param2]);
+    } else if ($[param1] == 'getJsonFilho'){
+      $[model] = getModel('data[Tabela]', $[param2]);
+      echo json_encode(["data" => $[model]->selectWhere(['pai_id' => $[param2]])]);
+    }
+  }
+
+  private function _pai(){
     if (!$this->[model]->doGravarAjax()){
       
       $this->addJS('[controller].js');
-
-      $this->viewLogado("./pages/[controller]/index.php");
+      $this->viewLogado([
+        "./pages/[controller]/layout/header.php", 
+        "./pages/[controller]/[method]/index.php", 
+        "./pages/[controller]/layout/footer.php"
+      ]);
     }
   }
-```
 
-# Javascript
+  public function _filho(){
+    $this->[model] = getModel('dataModulosMenus', $id);
+    $data = $this->[model_pai]->selectWhere(['id' => $id]);
+    if (count($data) > 0){
+      if ($this->[model]->doGravarAjax()){
+        $this->addJS('[controller].js');
+        $this->viewLogado("./pages/[controller]/index.php");
+      }
+    } else {
+      $page404 = new page404();
+      $page404->index();
+    }
+  }
+  ```
+
+  # Javascript
 
 >diretório ./public/assets/javascript/view/[controller].js
 
@@ -185,7 +256,7 @@ class [controller] extends controller {
 var table
 const load = (e) => {
   table = $('#datatable').DataTable( {
-    ajax: base_url + '/[controller]/[method]/[param1]/[param2]',//retornar json
+    ajax: base_url + '/[controller]/[method]/[param1]/'+id,
     responsive: true,
     dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
       <'table-responsive'tr>
@@ -201,12 +272,12 @@ const load = (e) => {
       { data: 'id', className: 'align-middle text-right', orderable: false, searchable: false }
     ],
     columnDefs: [{
-      targets: 1,
+      targets: 2,
       render: function (data, type, row, meta) {
         let dataRow = JSON.stringify(row);
         return `
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalForm"><i class="fa fa-pencil-alt"></i></a>
-        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="[tabela]" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="[Tabela]" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
         `
       }
     }]
@@ -221,7 +292,6 @@ const load = (e) => {
       document.getElementById('nome').value = row.nome
       document.getElementById('ativo').value = row.ativo
     }
-    //console.log(row);
   })
 
   
@@ -250,5 +320,4 @@ const submitForm = (e) => {
   *  Carregar
   */
   window.addEventListener('load', load);
-
 ```

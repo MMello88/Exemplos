@@ -10,6 +10,7 @@
 ?>
                   <!-- grid column -->
                   <div class="col-lg-8">
+
                     <!-- .page-section -->
                     <div class="page-section">
                       <!-- .card -->
@@ -31,33 +32,42 @@
                                 <th style="width:100px; min-width:100px;">&nbsp;</th>
                               </tr>
                             </thead>
+                            
                           </table><!-- /.table -->
                         </div><!-- /.card-body -->
                       </div><!-- /.card -->
                     </div><!-- /.page-section -->
+                   
                   </div><!-- /grid column -->
 
-                  <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel" aria-hidden="true">
-                    <!-- .modal-dialog -->
-                    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                      <!-- .modal-content -->
-                      <div class="modal-content">
-                        <!-- .modal-header -->
-                        <div class="modal-header">
-                          <h5 id="modalFormLabel" class="modal-title"> <?= $titulo ?> </h5>
-                        </div><!-- /.modal-header -->
-                        <!-- .modal-body -->
-                        <div class="modal-body">
-                          <?= formCard($inputs, '', 'Salvar') ?>
-                        </div><!-- /.modal-body -->
-                        <!-- .modal-footer -->
-                        <div class="modal-footer">
-                          <button type='submit' form="formAdd" value='perfil' class='btn btn-primary ml-auto'>Salvar</button>
-                          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
-                        </div><!-- /.modal-footer -->
-                      </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                  </div>
+
+
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel" aria-hidden="true">
+  <!-- .modal-dialog -->
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <!-- .modal-content -->
+    <div class="modal-content">
+      <!-- .modal-header -->
+      <div class="modal-header">
+        <h5 id="modalFormLabel" class="modal-title"><?= $titulo ?></h5>
+      </div>
+      <!-- /.modal-header -->
+      <!-- .modal-body -->
+      <div class="modal-body">
+        <?= formCard($inputs, '', 'Salvar') ?>
+      </div>
+      <!-- /.modal-body -->
+      <!-- .modal-footer -->
+      <div class="modal-footer">
+        <button type='submit' form="formAdd" value='perfil' class='btn btn-primary ml-auto'>Salvar</button>
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+      <!-- /.modal-footer -->
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 ```
 
 # PHP Model
@@ -78,7 +88,7 @@ class data[Tabela] extends model {
     $this->inputs['id']['label'] = 'Identificador';
     $this->inputs['id']['order'] = 0;
 
-    $this->inputs['nome']['label'] = "[nome]";
+    $this->inputs['nome']['label'] = "Modulo";
     $this->inputs['nome']['order'] = 1;
     $this->inputs['nome']['required'] = true;
     
@@ -100,7 +110,7 @@ class data[Tabela] extends model {
     $this->beforeDelete = function() {};
   }
 
-  private function validate(){
+  protected function validate(){
     $arrMessage = [];
     if((!isset($_POST['[campo]'])) or (empty($_POST['[campo]']))) {
       $arrMessage = [
@@ -119,7 +129,7 @@ class data[Tabela] extends model {
     }
     echo json_encode($arrMessage);
     return false;
-  }
+  }  
 }
 ```
 
@@ -130,6 +140,7 @@ class data[Tabela] extends model {
 ```php
 <?php 
 require_once("./base/controller.php");
+require_once("./controller/page404.php");
 
 class [controller] extends controller {
 
@@ -168,11 +179,24 @@ class [controller] extends controller {
   }
 
   public function [method]($[param1] = '', $[param2] = ''){
+    $this->data['id'] = $id;
+    
+    if (empty($[param1])) {
+      $this->_pai();
+    } else if ($[param1] == 'getJson') {
+      echo json_encode(["data" => $this->[model]->selectAll()]);
+    }
+  }
+
+  public function _pai(){
     if (!$this->[model]->doGravarAjax()){
       
       $this->addJS('[controller].js');
-
-      $this->viewLogado("./pages/[controller]/index.php");
+      $this->viewLogado([
+        "./pages/[controller]/layout/header.php", 
+        "./pages/[controller]/[method]/index.php", 
+        "./pages/[controller]/layout/footer.php"
+      ]);
     }
   }
 ```
@@ -185,7 +209,7 @@ class [controller] extends controller {
 var table
 const load = (e) => {
   table = $('#datatable').DataTable( {
-    ajax: base_url + '/[controller]/[method]/[param1]/[param2]',//retornar json
+    ajax: base_url + '/[controller]/[method]/[param1]/[param2]', //retornar json
     responsive: true,
     dom: `<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
       <'table-responsive'tr>
@@ -197,7 +221,7 @@ const load = (e) => {
       }
     },
     columns: [
-      { data: 'nome' },
+      { data: '[nome]' },
       { data: 'id', className: 'align-middle text-right', orderable: false, searchable: false }
     ],
     columnDefs: [{
@@ -207,6 +231,7 @@ const load = (e) => {
         return `
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalForm"><i class="fa fa-pencil-alt"></i></a>
         <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' data-toggle="modal" href="#modalFormDelete" data-tabela="[tabela]" data-campo="ativo" data-valor="Não" data-datatable="datatable"><i class="far fa-trash-alt"></i></a>
+        <a class="btn btn-sm btn-icon btn-secondary" data-row='${dataRow}' href="${base_url}/[controller]/[method]/[param1]/${row.id}" role="button" data-toggle="tooltip" data-placement="top" title="[Titulo Filho]"><i class="fab fa-elementor"></i></a>
         `
       }
     }]
@@ -217,9 +242,9 @@ const load = (e) => {
     var button = $(event.relatedTarget) 
     var row = button.data('row')
     if (row !== undefined){
-      document.getElementById('id').value = row.id
-      document.getElementById('nome').value = row.nome
-      document.getElementById('ativo').value = row.ativo
+      document.getElementById('id').value = row.id // campos da tabela
+      document.getElementById('nome').value = row.nome // campos da tabela
+      document.getElementById('ativo').value = row.ativo // campos da tabela
     }
     //console.log(row);
   })
@@ -244,11 +269,11 @@ const submitForm = (e) => {
 /**
  *  Submit
  */
-  document.getElementById('formAdd').addEventListener('submit', submitForm);
+document.getElementById('formAdd').addEventListener('submit', submitForm);
 
-  /**
-  *  Carregar
-  */
-  window.addEventListener('load', load);
+/**
+ *  Carregar
+ */
+window.addEventListener('load', load);
 
 ```

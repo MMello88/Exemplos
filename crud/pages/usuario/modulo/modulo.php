@@ -1,3 +1,8 @@
+<?php
+  $colunas = ['Modulo'];
+  $titulo = "Modulos";
+  $inputs = $this->modulos->inputs;
+?>
                   <!-- grid column -->
                   <div class="col-lg-8">
 
@@ -14,7 +19,11 @@
                           <table id="datatable" class="table dt-responsive nowrap w-100">
                             <thead>
                               <tr>
-                                <th> Modulo </th>
+                                <?php
+                                  foreach ($colunas as $key => $value) {
+                                    echo "<th> {$value} </th>";
+                                  }
+                                ?>
                                 <th style="width:100px; min-width:100px;">&nbsp;</th>
                               </tr>
                             </thead>
@@ -35,12 +44,12 @@
     <div class="modal-content">
       <!-- .modal-header -->
       <div class="modal-header">
-        <h5 id="modalFormLabel" class="modal-title">Modulos</h5>
+        <h5 id="modalFormLabel" class="modal-title"><?= $titulo ?></h5>
       </div>
       <!-- /.modal-header -->
       <!-- .modal-body -->
       <div class="modal-body">
-        <?= formCard($this->modulos->inputs, '', 'Salvar') ?>
+        <?= formCard($inputs, '', 'Salvar') ?>
       </div>
       <!-- /.modal-body -->
       <!-- .modal-footer -->
